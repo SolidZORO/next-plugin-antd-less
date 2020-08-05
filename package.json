@@ -3,8 +3,8 @@
   "version": "0.0.2",
   "main": "index.js",
   "sideEffect": false,
-  "author": "Jason Fung<solidzoro@live.com>",
-  "description": "Use Antd with Next.js",
+  "author": "Jason Fung <solidzoro@live.com>",
+  "description": "Use Antd (with Less) with Next.js, Zero Dependency on other Next-Plugins.",
   "license": "MIT",
   "keywords": [
     "next",
@@ -17,9 +17,13 @@
     "css module",
     "next plugin"
   ],
+  "homepage": "https://github.com/solidzoro/next-plugin-antd-less#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/solidzoro/next-plugin-antd-less"
+    "url": "git+https://github.com/solidzoro/next-plugin-antd-less.git"
+  },
+  "bugs": {
+    "url": "https://github.com/solidzoro/next-plugin-antd-less/issues"
   },
   "scripts": {
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"

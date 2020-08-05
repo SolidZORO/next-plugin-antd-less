@@ -6,7 +6,7 @@
 [![NPM version][npm-img]][npm-url]
 [![License: MIT][mit-img]][mit-url]
 
-Use [Antd] with [Next.js].
+Use [Antd] (with Less) with [Next.js], Zero Dependency on other Next-Plugins.
 
 ## Background
 
@@ -27,7 +27,7 @@ To solve the above problems, my idea is very simple.
 
 2. Then enable the `modules.auto` option of `css-loader`. This can simply match all `*.less` (no need to match it is `*.module.less` or `*.less`), and hand it over to `css-loader`.
 
-This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there is **Zero Dependency on other next-plugins**.
+This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there is **Zero Dependency on other Next-Plugins.**.
 
 
 
@@ -57,8 +57,26 @@ module.exports = withAntdLess({
     return config;
   },
 });
+```
 
+Add a `.babelrc.js` 
 
+```js
+// .babelrc.js
+module.exports = {
+  presets: [
+    ['next/babel'],
+  ],
+  plugins: [
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        style: true,
+      },
+    ],
+  ],
+};
 ```
 
 ## License
