@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign, consistent-return, no-restricted-syntax */
-const _ = require('lodash');
+const clone = require('clone');
 const fs = require('fs');
 const lessToJS = require('less-vars-to-js');
 
@@ -55,7 +55,7 @@ module.exports = (
       const sassModule = rules[1].oneOf.find((item) => `${item.test}` === sassModuleRegx);
 
       // clone
-      const lessModule = _.clone(sassModule);
+      const lessModule = clone(sassModule);
       lessModule.test = /\.less$/;
       delete lessModule.issuer;
 
@@ -78,7 +78,7 @@ module.exports = (
       const lessMCssLoader = lessModule.use.find((item) => `${item.loader}`.includes('css-loader'));
 
       // clone
-      const nextCssLoader = _.clone(lessMCssLoader);
+      const nextCssLoader = clone(lessMCssLoader);
       nextCssLoader.options.modules = {
         auto: true,
         exportGlobals: true,
