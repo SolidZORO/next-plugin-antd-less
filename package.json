@@ -1,6 +1,6 @@
 {
   "name": "next-plugin-antd-less",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "description": "Use Antd with Next.js",
   "keywords": [
