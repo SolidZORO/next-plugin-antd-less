@@ -6,28 +6,40 @@
   "author": "Jason Fung <solidzoro@live.com>",
   "description": "Use Antd (with Less) with Next.js, Zero Dependency on other Next-Plugins.",
   "license": "MIT",
-  "keywords": [
-    "next",
-    "nextjs",
-    "next.js",
-    "antd",
-    "ant design",
-    "plugin",
-    "less",
-    "css module",
-    "next plugin"
-  ],
-  "homepage": "https://github.com/solidzoro/next-plugin-antd-less#readme",
+  "homepage": "https://github.com/solidzoro/next-plugin-antd-less",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solidzoro/next-plugin-antd-less.git"
+    "url": "https://github.com/solidzoro/next-plugin-antd-less.git"
   },
   "bugs": {
     "url": "https://github.com/solidzoro/next-plugin-antd-less/issues"
   },
-  "scripts": {
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "scripts": {
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "release": "npm publish --dist-tag"
+  },
+  "keywords": [
+    "next",
+    "nextjs",
+    "next.js",
+    "less",
+    "less plugin",
+    "antd",
+    "ant design",
+    "antd plugin",
+    "plugin",
+    "css module",
+    "next plugin"
+  ],
   "devDependencies": {},
   "dependencies": {
     "clone": "^2.1.2",

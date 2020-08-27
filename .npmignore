@@ -1,0 +1,63 @@
+.*
+
+# OS
+*~
+node_modules
+
+# Compiled
+/.cache
+/_cache
+/cache
+
+/.build
+/_build
+/build
+
+/.dist
+/_dist
+/dist
+
+/.deploy
+/_deploy
+/deploy
+
+/__docker__
+/__docker-data__
+/__DOCKER-DATA__
+/__docker-data-dev__
+/__DOCKER-DATA-DEV__
+/.docker
+/.docker__
+
+tsconfig.tsbuildinfo
+
+# Logs
+*.log
+.env*
+!.env.example
+
+# Test
+/coverage
+.nyc_output
+
+# IDEs
+.project
+.classpath
+.c9
+*.launch
+.settings
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Deplpoy
+.pm2
+.nowignore
+.vercelignore
+.now
+.vercel
+/.now
+/.vercel
