@@ -1,3 +1,12 @@
+## [0.0.5](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.4...v0.0.5) (2020-08-27)
+
+
+### Bug Fixes
+
+* unintended overwriting of sass module rule ([deffefe](https://github.com/solidzoro/next-plugin-antd-less/commit/deffefe6118ad94bdcb1c4aa3f8eb98a3c6a771f))
+
+
+
 ## [0.0.4](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.3...v0.0.4) (2020-08-05)
 
 
