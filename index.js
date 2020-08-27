@@ -90,7 +90,7 @@ module.exports = (
       lessModule.use.splice(lessMCssLoaderIndex, 1, nextCssLoader);
 
       // webpack modules
-      rules[1].oneOf.splice(sassModuleIndex, 1, lessModule);
+      rules[1].oneOf.splice(sassModuleIndex, 0, lessModule);
       config.module.rules = rules;
 
       config = handleAntdInServer(config, options);
