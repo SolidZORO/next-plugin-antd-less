@@ -1,3 +1,7 @@
+## [0.0.6](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.5...v0.0.6) (2020-08-27)
+
+
+
 ## [0.0.5](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.4...v0.0.5) (2020-08-27)
 
 
