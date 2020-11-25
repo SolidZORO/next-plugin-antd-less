@@ -100,9 +100,6 @@ module.exports = (
         }
       };
 
-      console.log(nextConfig, nextCssModule);
-
-
       // replace cssModule
       lessModule.use.splice(cssModuleIndex, 1, nextCssModule);
 
