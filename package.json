@@ -1,6 +1,6 @@
 {
   "name": "next-plugin-antd-less",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "main": "index.js",
   "sideEffect": false,
   "author": "Jason Fung <solidzoro@live.com>",
