@@ -4,10 +4,7 @@ const fs = require('fs');
 const lessToJS = require('less-vars-to-js');
 
 // fix: prevents error when .less files are required by node
-if (typeof require !== 'undefined') {
-  require.extensions['.less'] = () => {
-  };
-}
+if (typeof require !== 'undefined') require.extensions['.less'] = () => {};
 
 /*
  * @ideaTips
@@ -95,8 +92,22 @@ module.exports = (
         modules: {
           ...nextCssModule.options.modules,
           localIdentName: dev ? '[local]--[hash:4]' : '[hash:4]',
+          // if enable `local` mode, you can write this less
+          //
+          // ```styles.module.less
+          // .abc {  <---- is local, match class='abc--nx3xc2'
+          //   color: red;
+          //
+          //   :global {
+          //     .xyz {  <---- is global, match class='xyz'
+          //       color: blue;
+          //     }
+          //   }
+          // }
+          //
           mode: 'local', // local, global, and pure, next.js default is `pure`
           ...nextConfig.cssLoaderOptions.modules,
+          auto: true, // keep true
         }
       };
 
@@ -109,9 +120,7 @@ module.exports = (
 
       config = handleAntdInServer(config, options);
 
-      if (typeof nextConfig.webpack === 'function') {
-        return nextConfig.webpack(config, options);
-      }
+      if (typeof nextConfig.webpack === 'function') return nextConfig.webpack(config, options);
 
       return config;
     },
@@ -119,24 +128,17 @@ module.exports = (
 };
 
 function handleAntdInServer(config, options) {
-  if (!options.isServer) {
-    return config;
-  }
+  if (!options.isServer) return config;
 
   const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
   const rawExternals = [...config.externals];
 
   config.externals = [
     (context, request, callback) => {
-      if (request.match(ANTD_STYLE_REGX)) {
-        return callback();
-      }
+      if (request.match(ANTD_STYLE_REGX)) return callback();
 
-      if (typeof rawExternals[0] === 'function') {
-        rawExternals[0](context, request, callback);
-      } else {
-        callback();
-      }
+      if (typeof rawExternals[0] === 'function') rawExternals[0](context, request, callback);
+      else callback();
     },
     ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
   ];
