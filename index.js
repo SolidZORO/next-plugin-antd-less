@@ -14,20 +14,10 @@ if (typeof require !== 'undefined') require.extensions['.less'] = () => {};
  * */
 module.exports = (
   nextConfig = {
-    // https://github.com/webpack-contrib/css-loader#object
-    // modules: {
-    //   compileType: 'module',
-    //   mode: 'local',
-    //   auto: true,
-    //   exportGlobals: true,
-    //   localIdentName: '[path][name]__[local]--[hash:base64:5]',
-    //   context: path.resolve(__dirname, 'src'),
-    //   localIdentHashPrefix: 'my-custom-hash',
-    //   namedExport: true,
-    //   exportLocalsConvention: 'camelCase',
-    //   exportOnlyLocals: false,
-    // },
-    cssLoaderOptionsModules: {},
+    cssLoaderOptions: {
+      sourceMap: false,
+      esModule: false,
+    },
     lessVarsFilePath: '',
   },
 ) => {
@@ -60,8 +50,9 @@ module.exports = (
       delete lessModule.issuer;
 
       // replace
-      const lessLoaderIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('sass-loader'));
-      lessModule.use.splice(lessLoaderIndex, 1, {
+      const lessModuleIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('sass-loader'));
+      lessModule.use.splice(lessModuleIndex, 1, {
+        // https://www.npmjs.com/package/less-loader
         loader: 'less-loader',
         options: {
           lessOptions: {
@@ -74,22 +65,41 @@ module.exports = (
       // -- loader --
 
       // find
-      const lessMCssLoaderIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('css-loader'));
-      const lessMCssLoader = lessModule.use.find((item) => `${item.loader}`.includes('css-loader'));
+      const cssModuleIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('css-loader'));
+      const cssModule = lessModule.use.find((item) => `${item.loader}`.includes('css-loader'));
+
+      // https://github.com/webpack-contrib/css-loader#object
+      // console.log:
+      //
+      // loader: './node_modules/next/node_modules/css-loader/dist/cjs.js',
+      // options: {
+      //   importLoaders: 3,
+      //   sourceMap: true,
+      //   esModule: false,
+      //   url: [Function: cssFileResolve],
+      //   import: [Function: import],
+      //   modules: {
+      //   exportLocalsConvention: 'asIs',
+      //     exportOnlyLocals: true,
+      //     mode: 'pure',
+      //     getLocalIdent: [Function: getCssModuleLocalIdent]
+      //   }
+      // }
 
       // clone
-      const nextCssLoader = clone(lessMCssLoader);
-      nextCssLoader.options.modules = {
-        auto: true,
-        exportGlobals: true,
-        localIdentName: dev ? '[local]--[hash:4]' : '[hash:4]',
-        ...nextConfig.cssLoaderOptionsModules,
-      };
+      const nextCssLoader = clone(cssModule);
+      nextCssLoader.options.esModule = nextConfig.cssLoaderOptions.esModule || false;
+      nextCssLoader.options.sourceMap = nextConfig.cssLoaderOptions.sourceMap || false;
+      //
+      nextCssLoader.options.modules.auto = true;
+      nextCssLoader.options.modules.localIdentName =  dev ? '[local]--[hash:4]' : '[hash:4]';
 
-      // replace
-      lessModule.use.splice(lessMCssLoaderIndex, 1, nextCssLoader);
 
-      // webpack modules
+
+      // replace cssModule
+      lessModule.use.splice(cssModuleIndex, 1, nextCssLoader);
+
+      // add lessModule webpack modules
       rules[1].oneOf.splice(sassModuleIndex, 0, lessModule);
       config.module.rules = rules;
 
