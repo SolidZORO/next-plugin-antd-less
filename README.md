@@ -10,7 +10,7 @@ Use [Antd] (with Less) with [Next.js], Zero Dependency on other Next-Plugins.
 
 ## Background
 
-Since Next.js 9.3 supports `sass` and `css` by default, but does not support `less`.
+### Since Next.js 9.3 supports `sass` and `css` by default, but does not support `less`.
 
 If you use Next.js > `9.3` and use the official less plugin, you will definitely encounter the following problems.
 
@@ -18,10 +18,8 @@ If you use Next.js > `9.3` and use the official less plugin, you will definitely
 
 2. Does not support automatic recognition of css modules, e.g. `a.module.less` and `a.less`
 
-
-
  
-To solve the above problems, my idea is very simple.
+### To solve the above problems, my idea is very simple.
 
 1. Find sassModule and copy onec and replace the `sass-loader` inside with `less-loader`. 
 
@@ -30,6 +28,10 @@ To solve the above problems, my idea is very simple.
 This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there is **Zero Dependency on other Next-Plugins.**.
 
 
+
+## Compatibility
+
+Support Next.js `v10` 
 
 ## Installation
 
@@ -49,7 +51,10 @@ const withAntdLess = require('next-plugin-antd-less');
 
 module.exports = withAntdLess({
   lessVarsFilePath: './src/styles/variables.less',
-  // cssLoaderOptionsModules: {},
+  // cssLoaderOptions: {
+  //  sourceMap: false, // default false
+  //  esModule: false, // default false
+  // },
   //
   // Other Config Here...
 
@@ -78,6 +83,22 @@ module.exports = {
   ],
 };
 ```
+
+
+## Tips
+
+- If you need to import the global CSS (e.g. styles.css), you can write in `_app.tsx`,
+```tsx
+// ./page/_app.tsx
+import './styles.css';
+```
+
+- If you need to import the global Less (e.g. styles.less), you can use `require` syntax,
+```tsx
+// ./page/index.tsx
+require('./styles.less');
+```
+
 
 ## License
 
