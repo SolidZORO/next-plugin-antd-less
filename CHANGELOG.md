@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.2...v0.1.3) (2020-11-25)
+
+
+### Bug Fixes
+
+* keep css modules `auto` ([c4a129b](https://github.com/solidzoro/next-plugin-antd-less/commit/c4a129bcbe17bba9830ff50caf3c5bcda0a3fd64))
+
 ### [0.1.2](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.1...v0.1.2) (2020-11-25)
 
 
