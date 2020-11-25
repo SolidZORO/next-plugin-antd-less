@@ -24,7 +24,10 @@
     }
   },
   "scripts": {
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "versionup": "standard-version -r patch",
+    "versionup:minor": "standard-version -r minor",
+    "versionup:major": "standard-version -r major",
+    "versionup:init": "conventional-changelog -p angular -i CHANGELOG.md -w -r 0 -s",
     "release": "npm publish --dist-tag"
   },
   "keywords": [
