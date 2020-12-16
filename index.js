@@ -106,7 +106,7 @@ module.exports = (
           // }
           //
           mode: 'local', // local, global, and pure, next.js default is `pure`
-          ...nextConfig.cssLoaderOptions.modules,
+          ...(nextConfig.cssLoaderOptions || {}).modules,
           auto: true, // keep true
         }
       };
