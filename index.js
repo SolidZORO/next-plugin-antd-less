@@ -31,9 +31,9 @@ module.exports = (
     lessVarsFilePath: '',
   },
 ) => {
-  const modifyVars = nextConfig.lessVarsFilePath
+  const modifyVars = nextConfig.modifyVars || (nextConfig.lessVarsFilePath
     ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
-    : undefined;
+    : undefined);
 
   return {
     ...nextConfig,
