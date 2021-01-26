@@ -28,13 +28,17 @@ module.exports = (
       //   getLocalIdent: [Function: getCssModuleLocalIdent]
       // }
     },
-    modifyVars:{},
+    modifyVars: {},
     lessVarsFilePath: '',
   },
 ) => {
-  const modifyVars = Object.assign({},nextConfig.modifyVars,nextConfig.lessVarsFilePath
-    ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
-    : undefined) ;
+  const modifyVars = Object.assign(
+    {},
+    nextConfig.modifyVars,
+    nextConfig.lessVarsFilePath
+      ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
+      : undefined,
+  );
 
   return {
     ...nextConfig,
@@ -52,8 +56,12 @@ module.exports = (
 
       // find
       const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
-      const sassModuleIndex = rules[1].oneOf.findIndex((item) => `${item.test}` === sassModuleRegx);
-      const sassModule = rules[1].oneOf.find((item) => `${item.test}` === sassModuleRegx);
+      const sassModuleIndex = rules[1].oneOf.findIndex(
+        (item) => `${item.test}` === sassModuleRegx,
+      );
+      const sassModule = rules[1].oneOf.find(
+        (item) => `${item.test}` === sassModuleRegx,
+      );
 
       // clone
       const lessModule = clone(sassModule);
@@ -61,7 +69,9 @@ module.exports = (
       delete lessModule.issuer;
 
       // replace
-      const lessModuleIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('sass-loader'));
+      const lessModuleIndex = lessModule.use.findIndex((item) =>
+        `${item.loader}`.includes('sass-loader'),
+      );
       lessModule.use.splice(lessModuleIndex, 1, {
         // https://www.npmjs.com/package/less-loader
         loader: 'less-loader',
@@ -76,9 +86,12 @@ module.exports = (
       // -- loader --
 
       // find
-      const cssModuleIndex = lessModule.use.findIndex((item) => `${item.loader}`.includes('css-loader'));
-      const cssModule = lessModule.use.find((item) => `${item.loader}`.includes('css-loader'));
-
+      const cssModuleIndex = lessModule.use.findIndex((item) =>
+        `${item.loader}`.includes('css-loader'),
+      );
+      const cssModule = lessModule.use.find((item) =>
+        `${item.loader}`.includes('css-loader'),
+      );
 
       // clone
       const nextCssModule = clone(cssModule);
@@ -109,7 +122,7 @@ module.exports = (
           mode: 'local', // local, global, and pure, next.js default is `pure`
           ...nextConfig.cssLoaderOptions.modules,
           auto: true, // keep true
-        }
+        },
       };
 
       // replace cssModule
@@ -121,7 +134,8 @@ module.exports = (
 
       config = handleAntdInServer(config, options);
 
-      if (typeof nextConfig.webpack === 'function') return nextConfig.webpack(config, options);
+      if (typeof nextConfig.webpack === 'function')
+        return nextConfig.webpack(config, options);
 
       return config;
     },
@@ -138,7 +152,8 @@ function handleAntdInServer(config, options) {
     (context, request, callback) => {
       if (request.match(ANTD_STYLE_REGX)) return callback();
 
-      if (typeof rawExternals[0] === 'function') rawExternals[0](context, request, callback);
+      if (typeof rawExternals[0] === 'function')
+        rawExternals[0](context, request, callback);
       else callback();
     },
     ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
