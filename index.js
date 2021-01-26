@@ -28,12 +28,13 @@ module.exports = (
       //   getLocalIdent: [Function: getCssModuleLocalIdent]
       // }
     },
+    modifyVars:{},
     lessVarsFilePath: '',
   },
 ) => {
-  const modifyVars = nextConfig.modifyVars || (nextConfig.lessVarsFilePath
+  const modifyVars = Object.assign({},nextConfig.modifyVars,nextConfig.lessVarsFilePath
     ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
-    : undefined);
+    : undefined) ;
 
   return {
     ...nextConfig,
