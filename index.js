@@ -6,12 +6,6 @@ const lessToJS = require('less-vars-to-js');
 // fix: prevents error when .less files are required by node
 if (typeof require !== 'undefined') require.extensions['.less'] = () => {};
 
-/*
- * @ideaTips
- *
- *
- *
- * */
 module.exports = (
   nextConfig = {
     cssLoaderOptions: {
@@ -45,6 +39,7 @@ module.exports = (
     webpack(config, options) {
       if (!options.defaultLoaders) {
         throw new Error(
+          // eslint-disable-next-line max-len
           'This plugin is not compatible with Next.js versions below 5.0.0 https://err.sh/next-plugins/upgrade',
         );
       }

@@ -18,10 +18,10 @@ If you use Next.js > `9.3` and use the official less plugin, you will definitely
 
 2. Does not support automatic recognition of css modules, e.g. `a.module.less` and `a.less`
 
- 
+
 ### To solve the above problems, my idea is very simple.
 
-1. Find sassModule and copy onec and replace the `sass-loader` inside with `less-loader`. 
+1. Find sassModule and copy onec and replace the `sass-loader` inside with `less-loader`.
 
 2. Then enable the `modules.auto` option of `css-loader`. This can simply match all `*.less` (no need to match it is `*.module.less` or `*.less`), and hand it over to `css-loader`.
 
@@ -31,7 +31,7 @@ This is the lowest cost way, And CLI will no longer show this disgusting warning
 
 ## Compatibility
 
-Support Next.js `v10` 
+Support Next.js `v10`
 
 📌 [Online Demo](https://mkn.vercel.app/)
 
@@ -53,17 +53,18 @@ const withAntdLess = require('next-plugin-antd-less');
 
 module.exports = withAntdLess({
   lessVarsFilePath: './src/styles/variables.less',
+  modifyVars: {},
   cssLoaderOptions: {
-  //   https://github.com/webpack-contrib/css-loader#object
-  //
-  //   sourceMap: true, // default false
-  //   esModule: false, // default false
-  //   modules: {
-  //     exportLocalsConvention: 'asIs',
-  //     exportOnlyLocals: true,
-  //     mode: 'pure',
-  //     getLocalIdent: [Function: getCssModuleLocalIdent]
-  //   }
+    //   https://github.com/webpack-contrib/css-loader#object
+    //
+    //   sourceMap: true, // default false
+    //   esModule: false, // default false
+    //   modules: {
+    //     exportLocalsConvention: 'asIs',
+    //     exportOnlyLocals: true,
+    //     mode: 'pure',
+    //     getLocalIdent: [Function: getCssModuleLocalIdent]
+    //   }
   },
   // Other Config Here...
 
@@ -73,7 +74,7 @@ module.exports = withAntdLess({
 });
 ```
 
-Add a `.babelrc.js` 
+Add a `.babelrc.js`
 
 ```js
 // .babelrc.js

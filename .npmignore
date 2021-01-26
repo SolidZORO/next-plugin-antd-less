@@ -35,6 +35,7 @@ tsconfig.tsbuildinfo
 *.log
 .env*
 !.env.example
+.npmrc
 
 # Test
 /coverage

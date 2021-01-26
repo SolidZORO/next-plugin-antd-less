@@ -3,7 +3,7 @@
   "version": "0.1.3",
   "main": "index.js",
   "sideEffect": false,
-  "author": "Jason Fung <solidzoro@live.com>",
+  "author": "Jason Feng <solidzoro@live.com>",
   "description": "Use Antd (with Less) with Next.js, Zero Dependency on other Next-Plugins.",
   "license": "MIT",
   "homepage": "https://github.com/solidzoro/next-plugin-antd-less",
@@ -24,10 +24,12 @@
     }
   },
   "scripts": {
+    "-------------------------------- TOOL ----": "----",
     "versionup": "standard-version -r patch",
     "versionup:minor": "standard-version -r minor",
     "versionup:major": "standard-version -r major",
-    "versionup:init": "conventional-changelog -p angular -i CHANGELOG.md -w -r 0 -s",
+    "versionup:init": "standard-version --first-release",
+    "-------------------------------- PROD ----": "----",
     "release": "npm publish --dist-tag"
   },
   "keywords": [
