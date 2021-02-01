@@ -8,31 +8,22 @@ if (typeof require !== 'undefined') require.extensions['.less'] = () => {};
 
 module.exports = (
   nextConfig = {
-    cssLoaderOptions: {
-      // https://github.com/webpack-contrib/css-loader#object
-      // importLoaders: 3,
-      // sourceMap: true,
-      // esModule: false,
-      // url: [Function: cssFileResolve],
-      // import: [Function: import],
-      // modules: {
-      //   exportLocalsConvention: 'asIs',
-      //   exportOnlyLocals: true,
-      //   mode: 'pure',
-      //   getLocalIdent: [Function: getCssModuleLocalIdent]
-      // }
-    },
+    // optional
     modifyVars: {},
-    lessVarsFilePath: '',
+    // optional
+    lessVarsFilePath: undefined,
+    // optional https://github.com/webpack-contrib/css-loader#object
+    cssLoaderOptions: {},
   },
 ) => {
-  const modifyVars = Object.assign(
-    {},
-    nextConfig.modifyVars,
-    nextConfig.lessVarsFilePath
-      ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
-      : undefined,
-  );
+  const lessVarsByFile = nextConfig.lessVarsFilePath
+    ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
+    : {};
+
+  const modifyVars = {
+    ...lessVarsByFile,
+    ...nextConfig.modifyVars,
+  };
 
   return {
     ...nextConfig,
@@ -47,7 +38,7 @@ module.exports = (
       const { dev } = options;
       const { rules } = config.module;
 
-      // -- module --
+      // ---- module ----
 
       // find
       const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
@@ -78,7 +69,7 @@ module.exports = (
         },
       });
 
-      // -- loader --
+      // ---- loader ----
 
       // find
       const cssModuleIndex = lessModule.use.findIndex((item) =>
@@ -104,7 +95,7 @@ module.exports = (
           // if enable `local` mode, you can write this less
           //
           // ```styles.module.less
-          // .abc {  <---- is local, match class='abc--nx3xc2'
+          // .abc {      <---- is local, match class='abc--nx3xc2'
           //   color: red;
           //
           //   :global {
