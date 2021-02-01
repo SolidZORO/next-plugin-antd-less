@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.4...v0.2.0) (2021-02-01)
+
+
+### Refactor
+
+* less in dependencies ([b92122e](https://github.com/solidzoro/next-plugin-antd-less/commit/b92122e917b0f7f6300ef33310eba2631b2a9dc3))
+* sharper nextConfig code ([dc18381](https://github.com/solidzoro/next-plugin-antd-less/commit/dc183816a6c658de5ae94277bf61a566e795364b))
+
 ### [0.1.4](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.3...v0.1.4) (2021-01-26)
 
 ### [0.1.3](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.2...v0.1.3) (2020-11-25)
