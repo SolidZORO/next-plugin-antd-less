@@ -38,17 +38,18 @@ module.exports = (
       const { dev } = options;
       const { rules } = config.module;
 
-      // for webpack4
-      const RULES_INDEX = 1;
+      // compatible w/ webpack 4 and 5
+      const ruleIndex = rules.findIndex((rule) => Array.isArray(rule.oneOf));
+      const rule = rules[ruleIndex];
 
       // ---- module ----
 
       // find
       const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
-      const sassModuleIndex = rules[RULES_INDEX].oneOf.findIndex(
+      const sassModuleIndex = rule.oneOf.findIndex(
         (item) => `${item.test}` === sassModuleRegx,
       );
-      const sassModule = rules[RULES_INDEX].oneOf.find(
+      const sassModule = rule.oneOf.find(
         (item) => `${item.test}` === sassModuleRegx,
       );
 
@@ -118,8 +119,8 @@ module.exports = (
       lessModule.use.splice(cssModuleIndex, 1, nextCssModule);
 
       // append lessModule to webpack modules
-      rules[RULES_INDEX].oneOf.splice(sassModuleIndex, 0, lessModule);
-      config.module.rules = rules;
+      rule.oneOf.splice(sassModuleIndex, 0, lessModule);
+      config.module.rules[ruleIndex] = rule;
 
       config = handleAntdInServer(config, options);
 
