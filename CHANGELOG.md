@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.2.0...v0.2.1) (2021-02-02)
+
+
+### Chore
+
+* update deps less-loader@8.0.0 ([5de28ae](https://github.com/solidzoro/next-plugin-antd-less/commit/5de28ae514d30bdf3cd0c6c8ff7bf007cdfb1004))
+
 ## [0.2.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.1.4...v0.2.0) (2021-02-01)
 
 
