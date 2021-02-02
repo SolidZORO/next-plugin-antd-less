@@ -1,4 +1,4 @@
-# Next.js + Antd
+# Next.js + Antd (with Less)
 
 <!--
 [![Build Status][build-img]][build-url]
