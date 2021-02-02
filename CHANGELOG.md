@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.2.1...v0.2.2) (2021-02-02)
+
+
+### Refactor
+
+* config.module.rules `INDEX` compatible w/ webpack 4 and 5 ([d73be86](https://github.com/solidzoro/next-plugin-antd-less/commit/d73be860ebf195849e89d79b3eb8006b83df2c33))
+* use RULES_INDEX, more clearly code comment ([bae11d5](https://github.com/solidzoro/next-plugin-antd-less/commit/bae11d592616c2eb0a78b24271f0b6ecc1c96537))
+
 ### [0.2.1](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.2.0...v0.2.1) (2021-02-02)
 
 
