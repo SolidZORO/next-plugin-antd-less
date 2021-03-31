@@ -39,7 +39,7 @@ Next-Plugins.**.
 
 ## Compatibility
 
-- next `v9.3` ~ `v10.1+`
+- next `v9.3` ~ `v10.1+` (webpack4)
 - less `v3.0` ~ `v4.0+`
 
 ## Installation
