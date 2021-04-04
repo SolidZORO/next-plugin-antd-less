@@ -8,6 +8,8 @@
 
 Use [Antd] (with Less) with [Next.js], Zero Dependency on other Next-Plugins.
 
+Support **Hot Update** style after modifying Antd less variables since 1.0.
+
 ## Demo
 
 📌 [Demo 1 - w/ Next.js v10](https://mkn.vercel.app/)
@@ -78,10 +80,6 @@ module.exports = withAntdLess({
   },
 });
 ```
-
-more code example see [here](https://github.com/SolidZORO/mkn/blob/master/next.config.js).
-
-
 
 Add a `.babelrc.js`
 
