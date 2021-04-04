@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.3.0...v1.0.0) (2021-04-04)
+
+
+### Features
+
+* supports both Next.js and CRA-Co ([418ec5c](https://github.com/solidzoro/next-plugin-antd-less/commit/418ec5c7a57153af00cc7632fbbc21b5a8b1e7e9))
+
+
+### Chore
+
+* add Compatibility ([62d1a03](https://github.com/solidzoro/next-plugin-antd-less/commit/62d1a038fbdaaf7318117147450129fa95c8bfd6))
+
+
+### Refactor
+
+* clear variable names ([590f116](https://github.com/solidzoro/next-plugin-antd-less/commit/590f1160b93a460dec59fc5ff87e37ac6e7bb0f1))
+* split overrideWebpackConfig ([aded75c](https://github.com/solidzoro/next-plugin-antd-less/commit/aded75c5658e2a462da37d302ae2566dea955d6a))
+
 ## [0.3.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.2.2...v0.3.0) (2021-02-07)
 
 
