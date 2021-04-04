@@ -8,7 +8,7 @@ if (typeof require !== 'undefined') require.extensions['.less'] = () => {
 };
 
 function checkNextJs(webpackConfig) {
-  return Boolean(webpackConfig.resolveLoader && webpackConfig.resolveLoader.alias && webpackConfig.resolveLoaderalias['next-babel-loader']);
+  return Boolean(webpackConfig.resolveLoader && webpackConfig.resolveLoader.alias && webpackConfig.resolveLoader.alias['next-babel-loader']);
 }
 
 function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
