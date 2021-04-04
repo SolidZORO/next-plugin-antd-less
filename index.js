@@ -4,10 +4,11 @@ const fs = require('fs');
 const lessToJS = require('less-vars-to-js');
 
 // fix: prevents error when .less files are required by node
-if (typeof require !== 'undefined') require.extensions['.less'] = () => {};
+if (typeof require !== 'undefined') require.extensions['.less'] = () => {
+};
 
 module.exports = (
-  nextConfig = {
+  pluginOptions = {
     // optional
     modifyVars: {},
     // optional
@@ -16,27 +17,27 @@ module.exports = (
     cssLoaderOptions: {},
   },
 ) => {
-  const lessVarsByFile = nextConfig.lessVarsFilePath
-    ? lessToJS(fs.readFileSync(nextConfig.lessVarsFilePath, 'utf8'))
+  const lessVarsByFile = pluginOptions.lessVarsFilePath
+    ? lessToJS(fs.readFileSync(pluginOptions.lessVarsFilePath, 'utf8'))
     : {};
 
   const modifyVars = {
     ...lessVarsByFile,
-    ...nextConfig.modifyVars,
+    ...pluginOptions.modifyVars,
   };
 
   return {
-    ...nextConfig,
-    webpack(config, options) {
-      if (!options.defaultLoaders) {
+    ...pluginOptions,
+    webpack(webpackConfig, nextConfig) {
+      if (!nextConfig.defaultLoaders) {
         throw new Error(
           // eslint-disable-next-line max-len
           'This plugin is not compatible with Next.js versions below 5.0.0 https://err.sh/next-plugins/upgrade',
         );
       }
 
-      const { dev } = options;
-      const { rules } = config.module;
+      const { dev } = nextConfig;
+      const { rules } = webpackConfig.module;
 
       // compatible w/ webpack 4 and 5
       const ruleIndex = rules.findIndex((rule) => Array.isArray(rule.oneOf));
@@ -86,12 +87,12 @@ module.exports = (
       // clone
       const nextCssModule = clone(cssModule);
 
-      // merge config
+      // merge webpackConfig
       nextCssModule.options = {
         ...nextCssModule.options,
         esModule: false,
         sourceMap: false,
-        ...nextConfig.cssLoaderOptions,
+        ...pluginOptions.cssLoaderOptions,
         //
         modules: {
           ...nextCssModule.options.modules,
@@ -110,7 +111,7 @@ module.exports = (
           // }
           //
           mode: 'local', // local, global, and pure, next.js default is `pure`
-          ...(nextConfig.cssLoaderOptions || {}).modules,
+          ...(pluginOptions.cssLoaderOptions || {}).modules,
           auto: true, // keep true
         },
       };
@@ -120,14 +121,14 @@ module.exports = (
 
       // append lessModule to webpack modules
       rule.oneOf.splice(sassModuleIndex, 0, lessModule);
-      config.module.rules[ruleIndex] = rule;
+      webpackConfig.module.rules[ruleIndex] = rule;
 
-      config = handleAntdInServer(config, options);
+      webpackConfig = handleAntdInServer(webpackConfig, nextConfig);
 
-      if (typeof nextConfig.webpack === 'function')
-        return nextConfig.webpack(config, options);
+      if (typeof pluginOptions.webpack === 'function')
+        return pluginOptions.webpack(webpackConfig, nextConfig);
 
-      return config;
+      return webpackConfig;
     },
   };
 };
