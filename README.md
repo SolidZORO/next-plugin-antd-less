@@ -8,7 +8,14 @@
 
 Use [Antd] (with Less) with [Next.js], Zero Dependency on other Next-Plugins.
 
-📌 [Demo w/ Next.js v10](https://mkn.vercel.app/)
+## Demo
+
+📌 [Demo 1 - w/ Next.js v10](https://mkn.vercel.app/)
+
+📌 [Demo 2 -  w/ CRA-Co v4](https://mkr.vercel.app/) 
+
+Yep! this plugin supports both Next.js and [CRA-Co] since v1.0.
+
 
 ## Introduction
 
@@ -50,6 +57,8 @@ yarn add next-plugin-antd-less
 
 ## Usage
 
+### for Next.js
+
 ```js
 // next.config.js
 const withAntdLess = require('next-plugin-antd-less');
@@ -70,6 +79,10 @@ module.exports = withAntdLess({
 });
 ```
 
+more code example see [here](https://github.com/SolidZORO/mkn/blob/master/next.config.js).
+
+
+
 Add a `.babelrc.js`
 
 ```js
@@ -79,6 +92,33 @@ module.exports = {
   plugins: [['import', { libraryName: 'antd', style: true }]],
 };
 ```
+
+Detailed config can be found in [`next.config.js`](https://github.com/SolidZORO/mkn/blob/master/next.config.js) file.
+
+### for CRA-Co
+
+```js
+const cracoPluginLess = require('next-plugin-antd-less/overrideWebpackConfig');
+
+module.exports = {
+  babel: cracoBabel,
+  plugins: [
+    cracoPluginAnalyze,
+    {
+      plugin: cracoPluginLess,
+      options: {
+        modifyVars: {
+          '@THEME--DARK': 'theme-dark',
+        },
+        lessVarsFilePath: './src/styles/variables.less',
+      },
+    },
+  ],
+};
+```
+
+Detailed config can be found in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/craco.config.js) file.
+
 
 ## Tips
 
@@ -107,6 +147,8 @@ require('./styles.less');
 [Next.js]: https://nextjs.org/
 
 [Antd]: https://github.com/ant-design/ant-design/
+
+[CRA-Co]: https://github.com/gsoft-inc/craco
 
 <!-- badges -->
 

@@ -1,31 +1,34 @@
 /* eslint-disable no-param-reassign, consistent-return, no-restricted-syntax */
 const clone = require('clone');
 const fs = require('fs');
-const lessToJS = require('less-vars-to-js');
+const path = require('path');
 
 // fix: prevents error when .less files are required by node
 if (typeof require !== 'undefined') require.extensions['.less'] = () => {
 };
 
-// function overrideWebpackConfig(webpackConfig, nextConfig, pluginOptions) {
+function checkNextJs(webpackConfig) {
+  return Boolean(webpackConfig.resolveLoader && webpackConfig.resolveLoader.alias && webpackConfig.resolveLoaderalias['next-babel-loader']);
+}
+
 function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
-  const lessVarsByFile = pluginOptions.lessVarsFilePath
-    ? lessToJS(fs.readFileSync(pluginOptions.lessVarsFilePath, 'utf8'))
-    : {};
+  const isNextJs = checkNextJs(webpackConfig);
 
-  const modifyVars = {
-    ...lessVarsByFile,
-    ...pluginOptions.modifyVars,
-  };
-
-  if (nextConfig && !nextConfig.defaultLoaders) {
+  if (isNextJs && !nextConfig.defaultLoaders) {
     throw new Error(
       // eslint-disable-next-line max-len
       'This plugin is not compatible with Next.js versions below 5.0.0 https://err.sh/next-plugins/upgrade',
     );
   }
 
-  const { dev } = nextConfig;
+  let dev;
+
+  if (isNextJs) {
+    dev = nextConfig.dev;
+  } else {
+    dev = webpackConfig.mode !== 'production';
+  }
+
   const { rules } = webpackConfig.module;
 
   // compatible w/ webpack 4 and 5
@@ -52,13 +55,31 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const lessModuleIndex = lessModule.use.findIndex((item) =>
     `${item.loader}`.includes('sass-loader'),
   );
+
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
     loader: 'less-loader',
     options: {
       lessOptions: {
         javascriptEnabled: true,
-        modifyVars,
+        //
+        // Tips: Read the CONSTANTS e.g. `{ '@THEME--DARK': 'theme-dark' }`
+        // Hot Reload is **NOT Supported**
+        // but is useful for some constant constants
+        modifyVars: pluginOptions.modifyVars,
+      },
+      //
+      // Tips: Read the variables e.g. `./styles/antd.less`
+      // Hot Reload is **Supported**
+      // but some var are not supported, e.g. `:global(.@{THEME--DARK})`
+      additionalData: (content) => {
+        const lessVarsFile = path.resolve(pluginOptions.lessVarsFilePath);
+
+        if (fs.existsSync(lessVarsFile)) {
+          return `@import '${lessVarsFile}'; \n ${content}`;
+        }
+
+        return content;
       },
       ...pluginOptions.lessLoaderOptions,
     },
@@ -113,8 +134,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   rule.oneOf.splice(sassModuleIndex, 0, lessModule);
   webpackConfig.module.rules[ruleIndex] = rule;
 
-  // ONLY for next.js server
-  if (nextConfig) {
+  // ONLY for next.js
+  if (isNextJs) {
     webpackConfig = handleAntdInServer(webpackConfig, nextConfig);
 
     if (typeof pluginOptions.webpack === 'function')
@@ -124,13 +145,13 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   return webpackConfig;
 }
 
-function handleAntdInServer(config, options) {
-  if (!options.isServer) return config;
+function handleAntdInServer(webpackConfig, nextConfig) {
+  if (!nextConfig.isServer) return webpackConfig;
 
   const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
-  const rawExternals = [...config.externals];
+  const rawExternals = [...webpackConfig.externals];
 
-  config.externals = [
+  webpackConfig.externals = [
     (context, request, callback) => {
       if (request.match(ANTD_STYLE_REGX)) return callback();
 
@@ -141,9 +162,12 @@ function handleAntdInServer(config, options) {
     ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
   ];
 
-  config.module.rules.unshift({ test: ANTD_STYLE_REGX, use: 'null-loader' });
+  webpackConfig.module.rules.unshift({
+    test: ANTD_STYLE_REGX,
+    use: 'null-loader'
+  });
 
-  return config;
+  return webpackConfig;
 }
 
 module.exports = {
