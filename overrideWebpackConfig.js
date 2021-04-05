@@ -14,7 +14,12 @@ if (typeof require !== 'undefined') require.extensions['.less'] = () => {
  * @returns {boolean}
  */
 function checkIsNextJs(webpackConfig) {
-  return Boolean(webpackConfig?.resolveLoader?.alias?.['next-babel-loader']);
+  return Boolean(
+    webpackConfig &&
+    webpackConfig.resolveLoader &&
+    webpackConfig.resolveLoader.alias &&
+    webpackConfig.resolveLoader.alias['next-babel-loader'],
+  );
 }
 
 /**
@@ -48,7 +53,12 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // default localIdentName
   let localIdentName = __DEV__ ? '[local]--[hash:4]' : '[hash:8]';
 
-  if (pluginOptions?.cssLoaderOptions?.modules?.localIdentName) {
+  if (
+    pluginOptions &&
+    pluginOptions.cssLoaderOptions &&
+    pluginOptions.cssLoaderOptions.modules &&
+    pluginOptions.cssLoaderOptions.modules.localIdentName
+  ) {
     localIdentName = pluginOptions.cssLoaderOptions.modules.localIdentName;
   }
 
@@ -67,19 +77,26 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     `${item.loader}`.includes('css-loader'),
   );
 
-  cssLoaderInCssModule.options = {
-    ...cssLoaderInCssModule.options,
-    ...pluginOptions?.cssLoaderOptions,
+  if (pluginOptions.cssLoaderOptions) {
+    cssLoaderInCssModule.options = {
+      ...cssLoaderInCssModule.options,
+      ...pluginOptions.cssLoaderOptions,
+    };
   }
 
-  cssLoaderInCssModule.options.modules = {
-    ...cssLoaderInCssModule.options.modules,
-    ...pluginOptions?.cssLoaderOptions?.modules,
-    localIdentName,
-    // getLocalIdent: undefined,
-  }
+  if (
+    pluginOptions.cssLoaderOptions &&
+    pluginOptions.cssLoaderOptions.modules
+  ) {
+    cssLoaderInCssModule.options.modules = {
+      ...cssLoaderInCssModule.options.modules,
+      ...pluginOptions.cssLoaderOptions.modules,
+      localIdentName,
+      // getLocalIdent: undefined,
+    };
 
-  // delete cssLoaderInCssModule.options.modules.getLocalIdent;
+    // delete cssLoaderInCssModule.options.modules.getLocalIdent;
+  }
 
   //
   //
@@ -179,7 +196,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       mode: 'local', // local, global, and pure, next.js default is `pure`
       //
       // Inherited from pluginOptions
-      ...pluginOptions.cssLoaderOptions?.modules,
+      ...(pluginOptions.cssLoaderOptions || {}).modules,
       //
       // recommended to keep `true`!
       auto: true,
