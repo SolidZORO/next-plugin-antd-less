@@ -76,10 +76,10 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     ...cssLoaderInCssModule.options.modules,
     ...pluginOptions?.cssLoaderOptions?.modules,
     localIdentName,
-    getLocalIdent: undefined,
+    // getLocalIdent: undefined,
   }
 
-  delete cssLoaderInCssModule.options.modules.getLocalIdent;
+  // delete cssLoaderInCssModule.options.modules.getLocalIdent;
 
   //
   //
@@ -92,11 +92,6 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     (item) => `${item.test}` === sassModuleRegx,
   );
   const sassModule = rule.oneOf[sassModuleIndex];
-
-  // for lessModule importLoaders
-  const cssLoaderInSassModule = sassModule.use.find((item) =>
-    `${item.loader}`.includes('css-loader'),
-  );
 
   // clone
   const lessModule = clone(sassModule);
@@ -151,14 +146,16 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const cssLoaderInLessModuleIndex = lessModule.use.findIndex((item) =>
     `${item.loader}`.includes('css-loader'),
   );
+  const cssLoaderInLessModule = lessModule.use.find((item) =>
+    `${item.loader}`.includes('css-loader'),
+  );
 
   // clone
-  const cssLoaderClone = clone(cssLoaderInCssModule);
+  const cssLoaderClone = clone(cssLoaderInLessModule);
 
   // merge CssModule options
   cssLoaderClone.options = {
     ...cssLoaderClone.options,
-    importLoaders: cssLoaderInSassModule?.options?.importLoaders + 1,
     sourceMap: Boolean(__DEV__),
     ...pluginOptions.cssLoaderOptions,
     //
@@ -181,11 +178,11 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       //
       mode: 'local', // local, global, and pure, next.js default is `pure`
       //
-      // recommended to keep `true`!
-      auto: true,
-      //
       // Inherited from pluginOptions
       ...pluginOptions.cssLoaderOptions?.modules,
+      //
+      // recommended to keep `true`!
+      auto: true,
     },
   };
 
@@ -198,7 +195,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   //
   //
   // ---- append lessModule to webpack modules ----
-  rule.oneOf.splice(sassModuleIndex + 1, 0, lessModule);
+  rule.oneOf.splice(sassModuleIndex, 0, lessModule);
   webpackConfig.module.rules[ruleIndex] = rule;
 
   //
