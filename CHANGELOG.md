@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.4...v1.0.5) (2021-04-05)
+
+
+### Refactor
+
+* remove all optional chaining, compatibility vercel deploy ([9c6886c](https://github.com/solidzoro/next-plugin-antd-less/commit/9c6886c55f14dc5f61d2217d76ca2bd4448473ef))
+
 ### [1.0.4](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.3...v1.0.4) (2021-04-05)
 
 
