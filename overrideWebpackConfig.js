@@ -7,16 +7,26 @@ const path = require('path');
 if (typeof require !== 'undefined') require.extensions['.less'] = () => {
 };
 
-function checkNextJs(webpackConfig) {
-  return Boolean(
-    webpackConfig.resolveLoader &&
-    webpackConfig.resolveLoader.alias &&
-    webpackConfig.resolveLoader.alias['next-babel-loader'],
-  );
+/**
+ * checkIsNextJs
+ *
+ * @param webpackConfig
+ * @returns {boolean}
+ */
+function checkIsNextJs(webpackConfig) {
+  return Boolean(webpackConfig?.resolveLoader?.alias?.['next-babel-loader']);
 }
 
+/**
+ * overrideWebpackConfig
+ *
+ * @param webpackConfig
+ * @param nextConfig
+ * @param pluginOptions
+ * @returns {*}
+ */
 function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
-  const isNextJs = checkNextJs(webpackConfig);
+  const isNextJs = checkIsNextJs(webpackConfig);
 
   if (isNextJs && !nextConfig.defaultLoaders) {
     throw new Error(
@@ -25,10 +35,9 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     );
   }
 
-  let dev;
-
-  if (isNextJs) dev = nextConfig.dev;
-  else dev = webpackConfig.mode !== 'production';
+  let __DEV__;
+  if (isNextJs) __DEV__ = nextConfig.dev;
+  else __DEV__ = webpackConfig.mode !== 'production';
 
   const { rules } = webpackConfig.module;
 
@@ -36,15 +45,57 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const ruleIndex = rules.findIndex((rule) => Array.isArray(rule.oneOf));
   const rule = rules[ruleIndex];
 
-  // ---- module ----
+  // default localIdentName
+  let localIdentName = __DEV__ ? '[local]--[hash:4]' : '[hash:8]';
+
+  if (pluginOptions?.cssLoaderOptions?.modules?.localIdentName) {
+    localIdentName = pluginOptions.cssLoaderOptions.modules.localIdentName;
+  }
+
+  //
+  //
+  //
+  // ---- cssModule ----
+
+  // delete default `getLocalIdent` and set `localIdentName`
+  const cssModuleRegx = '/\\.module\\.css$/';
+  const cssModuleIndex = rule.oneOf.findIndex(
+    (item) => `${item.test}` === cssModuleRegx,
+  );
+  const cssModule = rule.oneOf[cssModuleIndex];
+  const cssLoaderInCssModule = cssModule.use.find((item) =>
+    `${item.loader}`.includes('css-loader'),
+  );
+
+  cssLoaderInCssModule.options = {
+    ...cssLoaderInCssModule.options,
+    ...pluginOptions?.cssLoaderOptions,
+  }
+
+  cssLoaderInCssModule.options.modules = {
+    ...cssLoaderInCssModule.options.modules,
+    ...pluginOptions?.cssLoaderOptions?.modules,
+    localIdentName,
+    getLocalIdent: undefined,
+  }
+
+  delete cssLoaderInCssModule.options.modules.getLocalIdent;
+
+  //
+  //
+  //
+  // ---- lessModule (from the sassModule clone) ----
 
   // find
   const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
   const sassModuleIndex = rule.oneOf.findIndex(
     (item) => `${item.test}` === sassModuleRegx,
   );
-  const sassModule = rule.oneOf.find(
-    (item) => `${item.test}` === sassModuleRegx,
+  const sassModule = rule.oneOf[sassModuleIndex];
+
+  // for lessModule importLoaders
+  const cssLoaderInSassModule = sassModule.use.find((item) =>
+    `${item.loader}`.includes('css-loader'),
   );
 
   // clone
@@ -57,58 +108,64 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     `${item.loader}`.includes('sass-loader'),
   );
 
+  // merge lessModule options
+  const lessModuleOptions = {
+    lessOptions: {
+      javascriptEnabled: true,
+      //
+      // Tips: Read the CONSTANTS e.g. `{ '@THEME--DARK': 'theme-dark' }`
+      // Hot Reload is **NOT Supported**
+      // but is useful for some constant constants
+      modifyVars: pluginOptions.modifyVars,
+    },
+    //
+    // Tips: Read the variables e.g. `./styles/antd.less`
+    // Hot Reload is **Supported**
+    // but some var are not supported, e.g. `:global(.@{THEME--DARK})`
+    additionalData: (content) => {
+      const lessVarsFile = path.resolve(pluginOptions.lessVarsFilePath);
+
+      if (fs.existsSync(lessVarsFile)) {
+        return `@import '${lessVarsFile}'; \n ${content}`;
+      }
+
+      return content;
+    },
+    ...pluginOptions.lessLoaderOptions,
+  };
+
+  // console.log('🟡  lessModuleOptions', lessModuleOptions, '\n');
+
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
     loader: 'less-loader',
-    options: {
-      lessOptions: {
-        javascriptEnabled: true,
-        //
-        // Tips: Read the CONSTANTS e.g. `{ '@THEME--DARK': 'theme-dark' }`
-        // Hot Reload is **NOT Supported**
-        // but is useful for some constant constants
-        modifyVars: pluginOptions.modifyVars,
-      },
-      //
-      // Tips: Read the variables e.g. `./styles/antd.less`
-      // Hot Reload is **Supported**
-      // but some var are not supported, e.g. `:global(.@{THEME--DARK})`
-      additionalData: (content) => {
-        const lessVarsFile = path.resolve(pluginOptions.lessVarsFilePath);
-
-        if (fs.existsSync(lessVarsFile)) {
-          return `@import '${lessVarsFile}'; \n ${content}`;
-        }
-
-        return content;
-      },
-      ...pluginOptions.lessLoaderOptions,
-    },
+    options: lessModuleOptions,
   });
 
-  // ---- loader ----
+  //
+  //
+  //
+  // ---- cssLoader In LessModule ----
 
   // find
-  const cssModuleIndex = lessModule.use.findIndex((item) =>
-    `${item.loader}`.includes('css-loader'),
-  );
-  const cssModule = lessModule.use.find((item) =>
+  const cssLoaderInLessModuleIndex = lessModule.use.findIndex((item) =>
     `${item.loader}`.includes('css-loader'),
   );
 
   // clone
-  const nextCssModule = clone(cssModule);
+  const cssLoaderClone = clone(cssLoaderInCssModule);
 
-  // merge webpackConfig
-  nextCssModule.options = {
-    ...nextCssModule.options,
-    esModule: false,
-    sourceMap: false,
+  // merge CssModule options
+  cssLoaderClone.options = {
+    ...cssLoaderClone.options,
+    importLoaders: cssLoaderInSassModule?.options?.importLoaders + 1,
+    sourceMap: Boolean(__DEV__),
     ...pluginOptions.cssLoaderOptions,
     //
     modules: {
-      ...nextCssModule.options.modules,
-      localIdentName: dev ? '[local]--[hash:4]' : '[hash:4]',
+      // Inherited from Raw NextJs cssModule
+      ...cssLoaderClone.options.modules,
+      //
       // if enable `local` mode, you can write this less
       //
       // ```styles.module.less
@@ -123,19 +180,31 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       // }
       //
       mode: 'local', // local, global, and pure, next.js default is `pure`
-      ...(pluginOptions.cssLoaderOptions || {}).modules,
-      auto: true, // keep true
+      //
+      // recommended to keep `true`!
+      auto: true,
+      //
+      // Inherited from pluginOptions
+      ...pluginOptions.cssLoaderOptions?.modules,
     },
   };
 
-  // overwrite
-  lessModule.use.splice(cssModuleIndex, 1, nextCssModule);
+  // console.log('🟢  cssModuleOptions', cssLoaderClone.options, '\n');
 
-  // append lessModule to webpack modules
-  rule.oneOf.splice(sassModuleIndex, 0, lessModule);
+  // overwrite
+  lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
+
+  //
+  //
+  //
+  // ---- append lessModule to webpack modules ----
+  rule.oneOf.splice(sassModuleIndex + 1, 0, lessModule);
   webpackConfig.module.rules[ruleIndex] = rule;
 
-  // ONLY for next.js
+  //
+  //
+  //
+  // ---- handleAntdInServer (ONLY Next.js) ----
   if (isNextJs) {
     webpackConfig = handleAntdInServer(webpackConfig, nextConfig);
 
@@ -143,9 +212,19 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       return pluginOptions.webpack(webpackConfig, nextConfig);
   }
 
+  // console.log('🟣  webpackConfig.module.rules');
+  // console.dir(webpackConfig.module.rules, { depth: null });
+
   return webpackConfig;
 }
 
+/**
+ * handleAntdInServer
+ *
+ * @param webpackConfig
+ * @param nextConfig
+ * @returns {*}
+ */
 function handleAntdInServer(webpackConfig, nextConfig) {
   if (!nextConfig.isServer) return webpackConfig;
 
