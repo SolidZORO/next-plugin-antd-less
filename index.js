@@ -11,6 +11,7 @@ module.exports = (
     modifyVars: {},
     // optional
     lessVarsFilePath: undefined,
+    //
     // optional / https://github.com/webpack-contrib/css-loader#object
     cssLoaderOptions: {},
     // optional / https://github.com/webpack-contrib/less-loader#options

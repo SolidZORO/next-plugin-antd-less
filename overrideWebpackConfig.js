@@ -8,7 +8,11 @@ if (typeof require !== 'undefined') require.extensions['.less'] = () => {
 };
 
 function checkNextJs(webpackConfig) {
-  return Boolean(webpackConfig.resolveLoader && webpackConfig.resolveLoader.alias && webpackConfig.resolveLoader.alias['next-babel-loader']);
+  return Boolean(
+    webpackConfig.resolveLoader &&
+    webpackConfig.resolveLoader.alias &&
+    webpackConfig.resolveLoader.alias['next-babel-loader'],
+  );
 }
 
 function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
@@ -23,11 +27,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 
   let dev;
 
-  if (isNextJs) {
-    dev = nextConfig.dev;
-  } else {
-    dev = webpackConfig.mode !== 'production';
-  }
+  if (isNextJs) dev = nextConfig.dev;
+  else dev = webpackConfig.mode !== 'production';
 
   const { rules } = webpackConfig.module;
 
@@ -164,7 +165,7 @@ function handleAntdInServer(webpackConfig, nextConfig) {
 
   webpackConfig.module.rules.unshift({
     test: ANTD_STYLE_REGX,
-    use: 'null-loader'
+    use: 'null-loader',
   });
 
   return webpackConfig;
