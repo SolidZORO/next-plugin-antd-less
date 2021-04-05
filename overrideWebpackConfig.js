@@ -114,6 +114,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const lessModule = clone(sassModule);
   lessModule.test = /\.less$/;
   delete lessModule.issuer;
+  lessModule.sideEffects = true;
 
   // overwrite
   const lessModuleIndex = lessModule.use.findIndex((item) =>
