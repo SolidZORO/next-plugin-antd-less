@@ -128,25 +128,31 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       // Tips: Read the CONSTANTS e.g. `{ '@THEME--DARK': 'theme-dark' }`
       // Hot Reload is **NOT Supported**
       // but is useful for some constant constants
-      modifyVars: pluginOptions.modifyVars,
+      modifyVars: pluginOptions.modifyVars || {},
     },
     //
     // Tips: Read the variables e.g. `./styles/antd.less`
     // Hot Reload is **Supported**
     // but some var are not supported, e.g. `:global(.@{THEME--DARK})`
     additionalData: (content) => {
+      if (!pluginOptions.lessVarsFilePath) return content;
+
       const lessVarsFile = path.resolve(pluginOptions.lessVarsFilePath);
 
       if (fs.existsSync(lessVarsFile)) {
-        return `@import '${lessVarsFile}'; \n ${content}`;
+        content = `@import '${lessVarsFile}'; \n ${content}`;
       }
+
+      // console.log('lessVarsFile', lessVarsFile);
+      // console.log('content', content);
 
       return content;
     },
     ...pluginOptions.lessLoaderOptions,
   };
 
-  // console.log('🟡  lessModuleOptions', lessModuleOptions, '\n');
+  // console.log('🟡  lessModuleOptions', '\n');
+  // console.dir(lessModuleOptions, { depth: null });
 
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
@@ -203,7 +209,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
   };
 
-  // console.log('🟢  cssModuleOptions', cssLoaderClone.options, '\n');
+  // console.log('🟢  cssModuleOptions', '\n');
+  // console.dir(cssLoaderClone.options, { depth: null });
 
   // overwrite
   lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
