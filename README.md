@@ -14,10 +14,9 @@ Support **Hot Update** style after modifying Antd less variables since 1.0.
 
 📌 [Demo 1 - w/ Next.js v10](https://mkn.vercel.app/)
 
-📌 [Demo 2 -  w/ CRA-Co v4](https://mkr.vercel.app/) 
+📌 [Demo 2 - w/ CRA-Co v4](https://mkr.vercel.app/)
 
 Yep! this plugin supports both Next.js and [CRA-Co] since v1.0.
-
 
 ## Introduction
 
@@ -91,7 +90,9 @@ module.exports = {
 };
 ```
 
-Detailed config can be found in [`next.config.js`](https://github.com/SolidZORO/mkn/blob/master/next.config.js) file.
+Detailed config can be found
+in [`next.config.js`](https://github.com/SolidZORO/mkn/blob/master/next.config.js)
+file.
 
 ### for CRA-Co
 
@@ -115,8 +116,9 @@ module.exports = {
 };
 ```
 
-Detailed config can be found in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/craco.config.js) file.
-
+Detailed config can be found
+in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/craco.config.js)
+file.
 
 ## Tips
 
@@ -134,6 +136,20 @@ import './styles.css';
 ```tsx
 // ./page/index.tsx
 require('./styles.less');
+```
+
+- If you want to override `antd` vars, make sure that antd's `default.less'` is
+  referenced at least once in the project's less
+  file. [issues #36](https://github.com/SolidZORO/next-plugin-antd-less/issues/36)
+
+```less
+@import '~antd/lib/style/themes/default.less';
+
+@primary-color: #04f;
+
+.xyz {
+  font-size: 100%;
+}
 ```
 
 ## License
