@@ -91,11 +91,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     cssLoaderInCssModule.options.modules = {
       ...cssLoaderInCssModule.options.modules,
       ...pluginOptions.cssLoaderOptions.modules,
-      localIdentName,
-      // getLocalIdent: undefined,
     };
-
-    // delete cssLoaderInCssModule.options.modules.getLocalIdent;
   }
 
   //
@@ -151,8 +147,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     ...pluginOptions.lessLoaderOptions,
   };
 
-  // console.log('🟡  lessModuleOptions', '\n');
-  // console.dir(lessModuleOptions, { depth: null });
+  console.log('🟡  lessModuleOptions', '\n');
+  console.dir(lessModuleOptions, { depth: null });
 
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
@@ -176,6 +172,16 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // clone
   const cssLoaderClone = clone(cssLoaderInLessModule);
 
+  if (
+    cssLoaderClone &&
+    cssLoaderClone.options &&
+    cssLoaderClone.options.modules &&
+    cssLoaderClone.options.modules.getLocalIdent
+  ) {
+    // make the custom `localIdentName` work
+    delete cssLoaderClone.options.modules.getLocalIdent;
+  }
+
   // merge CssModule options
   cssLoaderClone.options = {
     ...cssLoaderClone.options,
@@ -183,6 +189,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     ...pluginOptions.cssLoaderOptions,
     //
     modules: {
+      localIdentName,
       // Inherited from Raw NextJs cssModule
       ...cssLoaderClone.options.modules,
       //
@@ -209,8 +216,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
   };
 
-  // console.log('🟢  cssModuleOptions', '\n');
-  // console.dir(cssLoaderClone.options, { depth: null });
+  console.log('🟢  cssModuleOptions', '\n');
+  console.dir(cssLoaderClone.options, { depth: null });
 
   // overwrite
   lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
