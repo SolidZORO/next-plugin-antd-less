@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.6...v1.0.7) (2021-04-09)
+
+
+### Bug Fixes
+
+* fixed config localIdentName ([82fd24e](https://github.com/solidzoro/next-plugin-antd-less/commit/82fd24e1b9cf96c37b2d88427ffac44dde603bd5))
+
 ### [1.0.6](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.5...v1.0.6) (2021-04-07)
 
 
