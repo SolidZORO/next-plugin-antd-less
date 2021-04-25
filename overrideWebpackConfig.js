@@ -169,8 +169,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     }
   }
 
-  console.log('🟡  lessModuleOptions', '\n');
-  console.dir(lessModuleOptions, { depth: null });
+  // console.log('🟡  lessModuleOptions', '\n');
+  // console.dir(lessModuleOptions, { depth: null });
 
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
@@ -238,8 +238,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
   };
 
-  console.log('🟢  cssModuleOptions', '\n');
-  console.dir(cssLoaderClone.options, { depth: null });
+  // console.log('🟢  cssModuleOptions', '\n');
+  // console.dir(cssLoaderClone.options, { depth: null });
 
   // overwrite
   lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
@@ -261,8 +261,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       return pluginOptions.webpack(webpackConfig, nextConfig);
   }
 
-  console.log('🟣  webpackConfig.module.rules');
-  console.dir(webpackConfig.module.rules, { depth: null });
+  // console.log('🟣  webpackConfig.module.rules');
+  // console.dir(webpackConfig.module.rules, { depth: null });
 
   return webpackConfig;
 }
