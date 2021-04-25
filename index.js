@@ -9,14 +9,20 @@ if (require && require.extensions) {
 module.exports = (
   pluginOptions = {
     // optional
-    modifyVars: {},
+    modifyVars: undefined,
     // optional
     lessVarsFilePath: undefined,
     //
     // optional / https://github.com/webpack-contrib/css-loader#object
-    cssLoaderOptions: {},
+    cssLoaderOptions: {
+      esModule: false,
+      sourceMap: false,
+      modules: {
+        mode: 'local',
+      },
+    },
     // optional / https://github.com/webpack-contrib/less-loader#options
-    lessLoaderOptions: {},
+    lessLoaderOptions: undefined,
   },
 ) => {
   return {

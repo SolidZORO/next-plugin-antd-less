@@ -5,7 +5,8 @@ const path = require('path');
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
-  require.extensions['.less'] = () => {};
+  require.extensions['.less'] = () => {
+  };
 }
 
 /**
@@ -121,35 +122,55 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const lessModuleOptions = {
     lessOptions: {
       javascriptEnabled: true,
-      //
-      // Tips: Read the CONSTANTS e.g. `{ '@THEME--DARK': 'theme-dark' }`
-      // Hot Reload is **NOT Supported**
-      // but is useful for some constant constants
-      modifyVars: pluginOptions.modifyVars || {},
-    },
-    //
-    // Tips: Read the variables e.g. `./styles/antd.less`
-    // Hot Reload is **Supported**
-    // but some var are not supported, e.g. `:global(.@{THEME--DARK})`
-    additionalData: (content) => {
-      if (!pluginOptions.lessVarsFilePath) return content;
-
-      const lessVarsFile = path.resolve(pluginOptions.lessVarsFilePath);
-
-      if (fs.existsSync(lessVarsFile)) {
-        content = `@import '${lessVarsFile}'; \n ${content}`;
-      }
-
-      // console.log('lessVarsFile', lessVarsFile);
-      // console.log('content', content);
-
-      return content;
     },
     ...pluginOptions.lessLoaderOptions,
   };
 
-  // console.log('🟡  lessModuleOptions', '\n');
-  // console.dir(lessModuleOptions, { depth: null });
+  /*
+  |--------------------------------------------------------------------------
+  | modifyVars (Hot Reload is **NOT Supported**, NEED restart webpack)
+  |--------------------------------------------------------------------------
+  |
+  | CONSTANTS --> e.g. `@THEME--DARK: 'theme-dark';`
+  |                    `:global(.@{THEME--DARK}) { color: red }`
+  |
+  */
+
+  let modifyVars = undefined;
+
+  if (pluginOptions.modifyVars) {
+    modifyVars = pluginOptions.modifyVars
+  }
+
+  if (pluginOptions.modifyVars) {
+    lessModuleOptions.lessOptions.modifyVars = modifyVars
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | lessVarsFilePath (Hot Reload is **Supported**, can overwrite `antd` vars)
+  |--------------------------------------------------------------------------
+  |
+  | variables file --> e.g. `./styles/variables.less`
+  |                         `@primary-color: #04f;`
+  |
+  */
+
+  if (pluginOptions.lessVarsFilePath) {
+    lessModuleOptions.additionalData = (content) => {
+      const lessVarsFileResolvePath = path.resolve(pluginOptions.lessVarsFilePath);
+
+      if (fs.existsSync(lessVarsFileResolvePath)) {
+        content = `@import '${lessVarsFileResolvePath}';\n\n${content}`;
+        // console.log(content);
+      }
+
+      return content;
+    }
+  }
+
+  console.log('🟡  lessModuleOptions', '\n');
+  console.dir(lessModuleOptions, { depth: null });
 
   lessModule.use.splice(lessModuleIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
@@ -217,8 +238,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
   };
 
-  // console.log('🟢  cssModuleOptions', '\n');
-  // console.dir(cssLoaderClone.options, { depth: null });
+  console.log('🟢  cssModuleOptions', '\n');
+  console.dir(cssLoaderClone.options, { depth: null });
 
   // overwrite
   lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
@@ -232,7 +253,6 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 
   //
   //
-  //
   // ---- handleAntdInServer (ONLY Next.js) ----
   if (isNextJs) {
     webpackConfig = handleAntdInServer(webpackConfig, nextConfig);
@@ -241,8 +261,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       return pluginOptions.webpack(webpackConfig, nextConfig);
   }
 
-  // console.log('🟣  webpackConfig.module.rules');
-  // console.dir(webpackConfig.module.rules, { depth: null });
+  console.log('🟣  webpackConfig.module.rules');
+  console.dir(webpackConfig.module.rules, { depth: null });
 
   return webpackConfig;
 }
