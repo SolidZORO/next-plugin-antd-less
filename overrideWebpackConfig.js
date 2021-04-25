@@ -4,8 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 // fix: prevents error when .less files are required by node
-if (typeof require !== 'undefined') require.extensions['.less'] = () => {
-};
+if (require && require.extensions) {
+  require.extensions['.less'] = () => {};
+}
 
 /**
  * checkIsNextJs
