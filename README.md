@@ -92,7 +92,8 @@ module.exports = {
 };
 ```
 
-Detailed config can be found in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/craco.config.js)
+Detailed config can be found
+in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/scripts/craco/craco-plugin--less.js)
 file.
 
 
