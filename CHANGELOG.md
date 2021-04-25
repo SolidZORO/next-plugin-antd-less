@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.9](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.8...v1.0.9) (2021-04-25)
+
+
+### Bug Fixes
+
+* cannot set property '.less' of  undefined ([42ba69a](https://github.com/solidzoro/next-plugin-antd-less/commit/42ba69a8db923facf7da86777d9eea947fdc561a))
+* cannot set property '.less' of undefined ([8b178ac](https://github.com/solidzoro/next-plugin-antd-less/commit/8b178ac53734c74dba39da7596c29d86b4bf3366))
+* fixed pluginOptions.modifyVars to be optional ([5e941f0](https://github.com/solidzoro/next-plugin-antd-less/commit/5e941f0796fe4f65a7187227a8c822ef86b05c41)), closes [#42](https://github.com/solidzoro/next-plugin-antd-less/issues/42)
+
 ### [1.0.8](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.7...v1.0.8) (2021-04-09)
 
 
