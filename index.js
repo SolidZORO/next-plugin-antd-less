@@ -2,8 +2,9 @@
 const { overrideWebpackConfig } = require('./overrideWebpackConfig');
 
 // fix: prevents error when .less files are required by node
-if (typeof require !== 'undefined') require.extensions['.less'] = () => {
-};
+if (require && require.extensions) {
+  require.extensions['.less'] = () => {};
+}
 
 module.exports = (
   pluginOptions = {
