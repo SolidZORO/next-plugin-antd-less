@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.10...v1.1.0) (2021-04-25)
+
+
+### Refactor
+
+* update less-loader to 8.0 ([a48cb89](https://github.com/solidzoro/next-plugin-antd-less/commit/a48cb890be904dcc4a63c316c731548b234b1379))
+
 ### [1.0.10](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.0.9...v1.0.10) (2021-04-25)
 
 
