@@ -98,7 +98,7 @@ file.
 
 ## FAQ
 
-- How to import global `CSS` style (e.g. styles.css)?
+### How to import global `CSS` style (e.g. styles.css)?
 
 ```tsx
 // ./page/_app.tsx
@@ -107,7 +107,7 @@ file.
 import './styles.css';
 ```
 
-- How to import global `Less` style (e.g. styles.less)?
+### How to import global `Less` style (e.g. styles.less)?
 
 ```tsx
 // ./page/_app.tsx
@@ -116,7 +116,7 @@ import './styles.css';
 require('./styles.less');
 ```
 
-- How to overwrite `antd` less variables?
+### How to overwrite `antd` less variables?
 
 ```less
 // ./src/styles/variables.less
