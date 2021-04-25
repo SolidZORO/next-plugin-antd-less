@@ -30,6 +30,7 @@
     "versionup:major": "standard-version -r major",
     "versionup:init": "standard-version --first-release",
     "-------------------------------- PROD ----": "----",
+    "release-beta": "npm publish --dist-tag --tag beta",
     "release": "npm publish --dist-tag"
   },
   "keywords": [
@@ -49,7 +50,7 @@
   "dependencies": {
     "clone": "^2.1.2",
     "less": "^4.1.1",
-    "less-loader": "^7.3.0",
+    "less-loader": "^8.1.1",
     "null-loader": "^4.0.1"
   }
 }
