@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.1.2...v1.1.3) (2021-04-28)
+
+
+### Features
+
+* add options `lessVarsFilePathAppendToEndOfContent` ([f42bbe2](https://github.com/solidzoro/next-plugin-antd-less/commit/f42bbe25d8be92302286ab9e26d9a73c890d8867)), closes [#40](https://github.com/solidzoro/next-plugin-antd-less/issues/40)
+
 ### [1.1.2](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.1.1...v1.1.2) (2021-04-25)
 
 
