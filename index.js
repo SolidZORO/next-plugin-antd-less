@@ -3,7 +3,8 @@ const { overrideWebpackConfig } = require('./overrideWebpackConfig');
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
-  require.extensions['.less'] = () => {};
+  require.extensions['.less'] = () => {
+  };
 }
 
 module.exports = (
@@ -12,6 +13,8 @@ module.exports = (
     modifyVars: undefined,
     // optional
     lessVarsFilePath: undefined,
+    // optional
+    lessVarsFilePathAppendToEndOfContent: undefined,
     //
     // optional / https://github.com/webpack-contrib/css-loader#object
     cssLoaderOptions: {

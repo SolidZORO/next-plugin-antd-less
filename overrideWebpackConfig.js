@@ -135,7 +135,6 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   |                    `:global(.@{THEME--DARK}) { color: red }`
   |
   */
-
   let modifyVars = undefined;
 
   if (pluginOptions.modifyVars) {
@@ -155,13 +154,20 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   |                         `@primary-color: #04f;`
   |
   */
-
   if (pluginOptions.lessVarsFilePath) {
     lessModuleOptions.additionalData = (content) => {
       const lessVarsFileResolvePath = path.resolve(pluginOptions.lessVarsFilePath);
 
       if (fs.existsSync(lessVarsFileResolvePath)) {
-        content = `@import '${lessVarsFileResolvePath}';\n\n${content}`;
+        const importLessLine = `@import '${lessVarsFileResolvePath}';`
+
+        content = `${importLessLine};\n\n${content}`;
+
+        // https://github.com/SolidZORO/next-plugin-antd-less/issues/40
+        if (pluginOptions.lessVarsFilePathAppendToEndOfContent) {
+          content = `${content}\n\n${importLessLine};`;
+        }
+
         // console.log(content);
       }
 

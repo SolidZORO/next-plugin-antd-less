@@ -46,6 +46,8 @@ module.exports = withAntdLess({
   modifyVars: { '@primary-color': '#04f' },
   // optional
   lessVarsFilePath: './src/styles/variables.less',
+  // optional
+  lessVarsFilePathAppendToEndOfContent: false,
   // optional https://github.com/webpack-contrib/css-loader#object
   cssLoaderOptions: {},
 
