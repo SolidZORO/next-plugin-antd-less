@@ -102,7 +102,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // ---- lessModule (from the sassModule clone) ----
 
   // find
-  const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
+  const sassModuleRegx = pluginOptions.sassModuleRegx || '/\\.module\\.(scss|sass)$/';
   const sassModuleIndex = rule.oneOf.findIndex(
     (item) => `${item.test}` === sassModuleRegx,
   );

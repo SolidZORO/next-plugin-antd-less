@@ -15,6 +15,8 @@ module.exports = (
     lessVarsFilePath: undefined,
     // optional
     lessVarsFilePathAppendToEndOfContent: undefined,
+    // optional
+    sassModuleRegx: undefined,
     //
     // optional / https://github.com/webpack-contrib/css-loader#object
     cssLoaderOptions: {
