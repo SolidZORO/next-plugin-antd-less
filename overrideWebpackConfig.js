@@ -161,11 +161,11 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       if (fs.existsSync(lessVarsFileResolvePath)) {
         const importLessLine = `@import '${lessVarsFileResolvePath}';`
 
-        content = `${importLessLine};\n\n${content}`;
-
         // https://github.com/SolidZORO/next-plugin-antd-less/issues/40
         if (pluginOptions.lessVarsFilePathAppendToEndOfContent) {
           content = `${content}\n\n${importLessLine};`;
+        } else {
+          content = `${importLessLine};\n\n${content}`;
         }
 
         // console.log(content);
