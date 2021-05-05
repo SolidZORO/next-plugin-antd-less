@@ -283,7 +283,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 function handleAntdInServer(webpackConfig, nextConfig) {
   if (!nextConfig.isServer) return webpackConfig;
 
-  const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
+  const ANTD_STYLE_REGX = /(antd\/.*?\/style).*(?<![.]js)$/;
   const rawExternals = [...webpackConfig.externals];
 
   webpackConfig.externals = [
