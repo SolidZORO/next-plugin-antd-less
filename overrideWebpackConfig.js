@@ -5,8 +5,7 @@ const path = require('path');
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
-  require.extensions['.less'] = () => {
-  };
+  require.extensions['.less'] = () => {};
 }
 
 /**
@@ -18,9 +17,9 @@ if (require && require.extensions) {
 function checkIsNextJs(webpackConfig) {
   return Boolean(
     webpackConfig &&
-    webpackConfig.resolveLoader &&
-    webpackConfig.resolveLoader.alias &&
-    webpackConfig.resolveLoader.alias['next-babel-loader'],
+      webpackConfig.resolveLoader &&
+      webpackConfig.resolveLoader.alias &&
+      webpackConfig.resolveLoader.alias['next-babel-loader'],
   );
 }
 
@@ -138,11 +137,11 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   let modifyVars = undefined;
 
   if (pluginOptions.modifyVars) {
-    modifyVars = pluginOptions.modifyVars
+    modifyVars = pluginOptions.modifyVars;
   }
 
   if (pluginOptions.modifyVars) {
-    lessModuleOptions.lessOptions.modifyVars = modifyVars
+    lessModuleOptions.lessOptions.modifyVars = modifyVars;
   }
 
   /*
@@ -156,10 +155,12 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   */
   if (pluginOptions.lessVarsFilePath) {
     lessModuleOptions.additionalData = (content) => {
-      const lessVarsFileResolvePath = path.resolve(pluginOptions.lessVarsFilePath);
+      const lessVarsFileResolvePath = path.resolve(
+        pluginOptions.lessVarsFilePath,
+      );
 
       if (fs.existsSync(lessVarsFileResolvePath)) {
-        const importLessLine = `@import '${lessVarsFileResolvePath}';`
+        const importLessLine = `@import '${lessVarsFileResolvePath}';`;
 
         // https://github.com/SolidZORO/next-plugin-antd-less/issues/40
         if (pluginOptions.lessVarsFilePathAppendToEndOfContent) {
@@ -172,7 +173,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       }
 
       return content;
-    }
+    };
   }
 
   // console.log('🟡  lessModuleOptions', '\n');
@@ -284,33 +285,34 @@ function handleAntdInServer(webpackConfig, nextConfig) {
   if (!nextConfig.isServer) return webpackConfig;
 
   const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
-  const rawExternals = [...webpackConfig.externals];
+  const exts = [...webpackConfig.externals];
 
-  webpackConfig.externals = nextConfig.config.future && nextConfig.config.future.webpack5
-    ? [
-      // ctx and callback are both webpack5's params
-      // ctx eqauls { context, request, contextInfo, getResolve }
-      // https://webpack.js.org/configuration/externals/#function
-      (ctx, callback) => {
-        if (ctx.request.match(ANTD_STYLE_REGX)) return callback();
+  webpackConfig.externals =
+    nextConfig.config.future && nextConfig.config.future.webpack5
+      ? [
+          // ctx and cb are both webpack5's params
+          // ctx eqauls { context, request, contextInfo, getResolve }
+          // https://webpack.js.org/configuration/externals/#function
+          (ctx, cb) => {
+            if (ctx.request.match(ANTD_STYLE_REGX)) return cb();
 
-        // next's params are different when webpack5 enable
-        // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
-        if (typeof rawExternals[0] === 'function')
-          return rawExternals[0](ctx, callback);
-        else callback();
-      },
-      ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
-    ] : [
-      (context, request, callback) => {
-        if (request.match(ANTD_STYLE_REGX)) return callback();
+            // next's params are different when webpack5 enable
+            // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
+            if (typeof exts[0] === 'function') return exts[0](ctx, cb);
+            else return cb();
+          },
+          ...(typeof exts[0] === 'function' ? [] : exts),
+        ]
+      : [
+          // webpack4
+          (ctx, req, cb) => {
+            if (req.match(ANTD_STYLE_REGX)) return cb();
 
-        if (typeof rawExternals[0] === 'function')
-          rawExternals[0](context, request, callback);
-        else callback();
-      },
-      ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
-    ];
+            if (typeof exts[0] === 'function') return exts[0](ctx, req, cb);
+            else return cb();
+          },
+          ...(typeof exts[0] === 'function' ? [] : exts),
+        ];
 
   webpackConfig.module.rules.unshift({
     test: ANTD_STYLE_REGX,
