@@ -6,7 +6,7 @@
 [![NPM version][npm-img]][npm-url]
 [![License: MIT][mit-img]][mit-url]
 
-Use [Antd] (with Less) with [Next.js], Zero Dependency on other Next-Plugins.
+Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
 Support **Hot Update** style after modifying Antd less variables since 1.0.
 
@@ -22,7 +22,7 @@ Yep! this plugin supports both Next.js and [CRA-Co] since v1.0.
 
 ## Compatibility
 
-- next `v9.3` ~ `v10.1+` (ONLY webpack4 now, [why?](https://github.com/SolidZORO/next-plugin-antd-less/issues/36))
+- next `v9.3` ~ `v10.2+` (support webpack 4 & 5, since v1.2)
 - less `v3.0` ~ `v4.0+`
 
 
@@ -55,6 +55,11 @@ module.exports = withAntdLess({
 
   webpack(config) {
     return config;
+  },
+
+  future: {
+    // if you use webpack5
+    webpack5: true,
   },
 });
 ```
