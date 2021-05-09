@@ -8,7 +8,7 @@
 
 Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
-Support **Hot Update** style after modifying Antd less variables since 1.0.
+Support **Hot Update** style after modifying Antd less variables since v1.0.
 
 
 ## Demo
