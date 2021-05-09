@@ -286,16 +286,31 @@ function handleAntdInServer(webpackConfig, nextConfig) {
   const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
   const rawExternals = [...webpackConfig.externals];
 
-  webpackConfig.externals = [
-    (context, request, callback) => {
-      if (request.match(ANTD_STYLE_REGX)) return callback();
+  webpackConfig.externals = nextConfig.config.future && nextConfig.config.future.webpack5
+    ? [
+      // ctx and callback are both webpack5's params
+      // ctx eqauls { context, request, contextInfo, getResolve }
+      // https://webpack.js.org/configuration/externals/#function
+      (ctx, callback) => {
+        if (ctx.request.match(ANTD_STYLE_REGX)) return callback();
 
-      if (typeof rawExternals[0] === 'function')
-        rawExternals[0](context, request, callback);
-      else callback();
-    },
-    ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
-  ];
+        // next's params are different when webpack5 enable
+        // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
+        if (typeof rawExternals[0] === 'function')
+          return rawExternals[0](ctx, callback);
+        else callback();
+      },
+      ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
+    ] : [
+      (context, request, callback) => {
+        if (request.match(ANTD_STYLE_REGX)) return callback();
+
+        if (typeof rawExternals[0] === 'function')
+          rawExternals[0](context, request, callback);
+        else callback();
+      },
+      ...(typeof rawExternals[0] === 'function' ? [] : rawExternals),
+    ];
 
   webpackConfig.module.rules.unshift({
     test: ANTD_STYLE_REGX,
