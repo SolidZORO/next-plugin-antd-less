@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.1.4...v1.2.0) (2021-05-09)
+
+
+### Chore
+
+* format code by prettier config ([e300a14](https://github.com/solidzoro/next-plugin-antd-less/commit/e300a147b16ad4ca48e8becc522d225eb7c51924))
+
 ### [1.1.4](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.1.3...v1.1.4) (2021-04-29)
 
 
