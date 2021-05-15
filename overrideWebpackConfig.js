@@ -67,7 +67,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   //
   //
   // ---- cssModule ----
-
+  //
   // delete default `getLocalIdent` and set `localIdentName`
   const cssModuleRegx = '/\\.module\\.css$/';
   const cssModuleIndex = rule.oneOf.findIndex(
@@ -99,7 +99,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   //
   //
   // ---- lessModule (from the sassModule clone) ----
-
+  //
   // find
   const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
   const sassModuleIndex = rule.oneOf.findIndex(
@@ -124,6 +124,32 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
     ...pluginOptions.lessLoaderOptions,
   };
+
+  //
+  //
+  //
+  // ---- file-loader supported *.less ----
+  //
+  // url()s fail to load files
+  // https://github.com/SolidZORO/next-plugin-antd-less/issues/39
+  //
+  // find
+  const fileModuleIndex = rule.oneOf.findIndex((item) => {
+    if (
+      item.use &&
+      item.use.loader &&
+      item.use.loader.includes('/file-loader/')
+    ) {
+      return item;
+    }
+  });
+
+  const fileModule = rule.oneOf[fileModuleIndex];
+
+  if (fileModule) {
+    // RAW ---> issuer: /\.(css|scss|sass)$/,
+    fileModule.issuer = /\.(css|scss|sass|less)$/;
+  }
 
   /*
   |--------------------------------------------------------------------------
