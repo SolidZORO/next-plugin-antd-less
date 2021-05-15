@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.0...v1.2.1) (2021-05-15)
+
+
+### Features
+
+* file-loader supported *.less, e.g. `background-image: url('img.jpg')` ([99011d4](https://github.com/solidzoro/next-plugin-antd-less/commit/99011d4cb163ae987ab425edd556a3691c0ab5e5)), closes [#39](https://github.com/solidzoro/next-plugin-antd-less/issues/39)
+
 ## [1.2.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.1.4...v1.2.0) (2021-05-09)
 
 
