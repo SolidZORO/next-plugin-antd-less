@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.1...v1.2.2) (2021-06-03)
+
+
+### Features
+
+* support serverless mode ([d187df8](https://github.com/solidzoro/next-plugin-antd-less/commit/d187df896e64077612e6d8b381024a817a9c65b8))
+
 ### [1.2.1](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.0...v1.2.1) (2021-05-15)
 
 
