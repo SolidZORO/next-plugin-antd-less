@@ -8,34 +8,40 @@
 
 Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
-Support **Hot Update** style after modifying Antd less variables since v1.0.
+
+## 📌 Demo
+
+[Demo w/ Next.js v10](https://mkn.vercel.app/)
+
+[Demo w/ CRA v4](https://mkr.vercel.app/)
+
+Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 
 
-## Demo
+## 🎉 Features
 
-📌 [Demo 1 - w/ Next.js v10](https://mkn.vercel.app/)
+- Zero Dependency on other [Next.js] Plugins
+- Support Both [Next.js] & [CRA] Project
+- Support Hot-Update After modifying [Antd] less vars
+- Support Serverless Mode
 
-📌 [Demo 2 - w/ CRA-Co v4](https://mkr.vercel.app/)
+## 🌊 Compatibility
 
-Yep! this plugin supports both Next.js and [CRA-Co] since v1.0.
-
-
-## Compatibility
-
-- next `v9.3` ~ `v10.2+` (support webpack 4 & 5, since v1.2)
-- less `v3.0` ~ `v4.0+`
+- next `v9.0` (webpack 4)
+- next `v10.2+` (webpack 4 & 5)
+- less `v3.0+`
 
 
-## Installation
+## 📦 Installation
 
 ```sh
 yarn add next-plugin-antd-less
 ```
 
 
-## Usage
+## 🔰 Usage
 
-### for Next.js
+### for [Next.js]
 
 ```js
 // next.config.js
@@ -77,7 +83,7 @@ module.exports = {
 Detailed config can be found in [`next.config.js`](https://github.com/SolidZORO/mkn/blob/master/next.config.js)
 file.
 
-### for CRA-Co
+### for [CRA] / [CRA-Co]
 
 ```js
 const cracoPluginLess = require('next-plugin-antd-less/overrideWebpackConfig');
@@ -104,7 +110,7 @@ in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/scripts/crac
 file.
 
 
-## FAQ
+## 🖌️ FAQ
 
 ### How to import global `CSS` style (e.g. styles.css)?
 
@@ -140,7 +146,7 @@ lessVarsFilePath: './src/styles/variables.less'
 @seeMore [issues #36](https://github.com/SolidZORO/next-plugin-antd-less/issues/36)
 
 
-## Background
+## 🎩 Background
 
 ### Issues
 
@@ -163,7 +169,7 @@ This is the lowest cost way, And CLI will no longer show this disgusting warning
 is **Zero Dependency on other Next-Plugins.**.
 
 
-## License
+## 📜 License
 
 © [MIT][mit-url]
 
@@ -173,7 +179,9 @@ is **Zero Dependency on other Next-Plugins.**.
 
 [Antd]: https://github.com/ant-design/ant-design/
 
-[CRA-Co]: https://github.com/gsoft-inc/craco
+[CRA]: https://create-react-app.dev/
+
+[CRA-co]: https://github.com/gsoft-inc/craco
 
 <!-- badges -->
 
