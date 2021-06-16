@@ -314,7 +314,8 @@ function handleAntdInServer(webpackConfig, nextConfig) {
   const exts = [...webpackConfig.externals];
 
   webpackConfig.externals =
-    nextConfig.config.future && nextConfig.config.future.webpack5
+    nextConfig.config.webpack5 !== false || // Next.js 11 support
+    (nextConfig.config.future && nextConfig.config.future.webpack5)
       ? [
           // ctx and cb are both webpack5's params
           // ctx eqauls { context, request, contextInfo, getResolve }
