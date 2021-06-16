@@ -301,6 +301,16 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 }
 
 /**
+ * isWebpack5
+ *
+ * @param nextConfig
+ * @returns {boolean}
+ */
+function isWebpack5(nextConfig) {
+  return typeof nextConfig.webpack.version === 'string' && nextConfig.webpack.version.startsWith('5');
+}
+
+/**
  * handleAntdInServer
  *
  * @param webpackConfig
@@ -314,8 +324,7 @@ function handleAntdInServer(webpackConfig, nextConfig) {
   const exts = [...webpackConfig.externals];
 
   webpackConfig.externals =
-    nextConfig.config.webpack5 !== false || // Next.js 11 support
-    (nextConfig.config.future && nextConfig.config.future.webpack5)
+    isWebpack5(nextConfig)
       ? [
           // ctx and cb are both webpack5's params
           // ctx eqauls { context, request, contextInfo, getResolve }
