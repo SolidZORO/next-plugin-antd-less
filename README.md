@@ -11,7 +11,7 @@ Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
 ## 📌 Demo
 
-[Demo w/ Next.js v10](https://mkn.vercel.app/)
+[Demo w/ Next.js v11](https://mkn.vercel.app/)
 
 [Demo w/ CRA v4](https://mkr.vercel.app/)
 
@@ -28,7 +28,7 @@ Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 ## 🌊 Compatibility
 
 - next `v9.0` (webpack 4)
-- next `v10.2+` (webpack 4 & 5)
+- next `v10 & v11` (webpack 4 & 5)
 - less `v3.0+`
 
 
@@ -63,8 +63,8 @@ module.exports = withAntdLess({
     return config;
   },
 
+  // ONLY for Next.js 10, if you use Next.js 11, delete this block
   future: {
-    // if you use webpack5
     webpack5: true,
   },
 });
