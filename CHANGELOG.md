@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.2...v1.3.0) (2021-06-16)
+
+
+### Features
+
+* support for Next.js v11 ([fbc3606](https://github.com/solidzoro/next-plugin-antd-less/commit/fbc36063d677a852ee4a4aa189fb9403aa80089b)), closes [#62](https://github.com/solidzoro/next-plugin-antd-less/issues/62)
+* support next.js 11 ([0840e32](https://github.com/solidzoro/next-plugin-antd-less/commit/0840e32642dad053d6f959fd2d28953d258b5f43))
+
+
+### Chore
+
+* clear code ([a5347ff](https://github.com/solidzoro/next-plugin-antd-less/commit/a5347ffb9214f55aace056b858ac4c97d58bb779))
+
 ### [1.2.2](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.1...v1.2.2) (2021-06-03)
 
 
