@@ -307,8 +307,6 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
  * @returns {boolean}
  */
 function isWebpack5(nextConfig) {
-  console.log(nextConfig.webpack.version);
-
   return typeof nextConfig.webpack.version === 'string' && nextConfig.webpack.version.startsWith('5');
 }
 
