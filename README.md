@@ -11,9 +11,9 @@ Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
 ## 📌 Demo
 
-[Demo w/ Next.js v11](https://mkn.vercel.app/)
+[Demo w/ Next.js v11](https://mkn.vercel.app/) by [mkn](https://github.com/SolidZORO/mkn)
 
-[Demo w/ CRA v4](https://mkr.vercel.app/)
+[Demo w/ CRA v4](https://mkr.vercel.app/) by [mkr](https://github.com/SolidZORO/mkr)
 
 Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 
@@ -111,6 +111,11 @@ file.
 
 
 ## 🖌️ FAQ
+
+### Reference Project?
+
+If you have any problem, please check [mkn](https://github.com/SolidZORO/mkn) (Next.js)
+and [mkr](https://github.com/SolidZORO/mkr) (CRA) first, I update these two repo's every time I update this plugin.
 
 ### How to import global `CSS` style (e.g. styles.css)?
 
