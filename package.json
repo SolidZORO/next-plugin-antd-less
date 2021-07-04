@@ -6,13 +6,13 @@
   "author": "Jason Feng <solidzoro@live.com>",
   "description": "Use Antd (with Less) with Next.js, Zero Dependency on other Next-Plugins.",
   "license": "MIT",
-  "homepage": "https://github.com/solidzoro/next-plugin-antd-less",
+  "homepage": "https://github.com/SolidZORO/next-plugin-antd-less",
   "repository": {
     "type": "git",
-    "url": "https://github.com/solidzoro/next-plugin-antd-less.git"
+    "url": "https://github.com/SolidZORO/next-plugin-antd-less.git"
   },
   "bugs": {
-    "url": "https://github.com/solidzoro/next-plugin-antd-less/issues"
+    "url": "https://github.com/SolidZORO/next-plugin-antd-less/issues"
   },
   "publishConfig": {
     "access": "public",
