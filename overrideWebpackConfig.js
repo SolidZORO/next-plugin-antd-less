@@ -320,7 +320,8 @@ function isWebpack5(nextConfig) {
 function handleAntdInServer(webpackConfig, nextConfig) {
   if (!nextConfig.isServer) return webpackConfig;
 
-  const ANTD_STYLE_REGX = /(antd\/.*?\/style).*(?<![.]js)$/;
+  // 将正则条件放宽，同时匹配 antd 与 antd-pro
+  const ANTD_STYLE_REGX = /antd\/.*?\/style.*?/;
   const exts = [...webpackConfig.externals];
 
   webpackConfig.externals =
