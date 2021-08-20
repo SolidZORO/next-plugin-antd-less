@@ -105,8 +105,7 @@ module.exports = {
 };
 ```
 
-Detailed config can be found
-in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/scripts/craco/craco-plugin--less.js)
+Detailed config can be found in [`craco.config.js`](https://github.com/SolidZORO/mkr/blob/master/scripts/craco/craco-plugin--less.js)
 file.
 
 
@@ -137,9 +136,11 @@ require('./styles.less');
 
 ### How to overwrite `antd` less variables?
 
+
 ```less
 // ./src/styles/variables.less
-//
+@import '~antd/lib/style/themes/default.less'; // <-- you need to import antd variables once in your project
+
 @primary-color: #04f; // change antd primary-color
 ```
 
@@ -148,15 +149,14 @@ require('./styles.less');
 lessVarsFilePath: './src/styles/variables.less'
 ```
 
-@seeMore [issues #36](https://github.com/SolidZORO/next-plugin-antd-less/issues/36)
+@seeMore issues [#36](https://github.com/SolidZORO/next-plugin-antd-less/issues/36), [#74](https://github.com/SolidZORO/next-plugin-antd-less/issues/74)
 
 
 ## 🎩 Background
 
 ### Issues
 
-Since Next.js 9.3 supports `sass` and `css` by default, but does not support `less`. If you use Next.js > `9.3` and use
-the official less plugin, you will definitely encounter the following problems.
+Since Next.js 9.3 supports `sass` and `css` by default, but does not support `less`. If you use Next.js > `9.3` and use the official less plugin, you will definitely encounter the following problems.
 
 1. CIL Warning `Warning: Built-in CSS support is being disabled due to custom CSS configuration being detected.`
 
@@ -167,11 +167,9 @@ the official less plugin, you will definitely encounter the following problems.
 
 1. Find sassModule and copy onec and replace the `sass-loader` inside with `less-loader`.
 
-2. Then enable the `modules.auto` option of `css-loader`. This can simply match all `*.less` (no need to match it
-   is `*.module.less` or `*.less`), and hand it over to `css-loader`.
+2. Then enable the `modules.auto` option of `css-loader`. This can simply match all `*.less` (no need to match it is `*.module.less` or `*.less`), and hand it over to `css-loader`.
 
-This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there
-is **Zero Dependency on other Next-Plugins.**.
+This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there is **Zero Dependency on other Next-Plugins.**.
 
 
 ## 📜 License
