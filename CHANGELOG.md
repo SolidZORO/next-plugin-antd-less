@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.3.0...v1.4.0) (2021-08-22)
+
+
+### Features
+
+* add echoIsServerInfo() Fn for Debug ([9daff7c](https://github.com/SolidZORO/next-plugin-antd-less/commit/9daff7ccc06142a8915a14765ae7587eed75a1bf))
+* next-image-loader supported *.less ([1860ea2](https://github.com/SolidZORO/next-plugin-antd-less/commit/1860ea236c5880d2c39f5aad248452e17f697297)), closes [#59](https://github.com/SolidZORO/next-plugin-antd-less/issues/59) [#39](https://github.com/SolidZORO/next-plugin-antd-less/issues/39)
+* support *.svg with babel-plugin-inline-react-svg ([daec84b](https://github.com/SolidZORO/next-plugin-antd-less/commit/daec84beb5f1989b4a2b1f88c3a1cc60a4b94545)), closes [#72](https://github.com/SolidZORO/next-plugin-antd-less/issues/72)
+* update less-loader to v10 ([9e495ae](https://github.com/SolidZORO/next-plugin-antd-less/commit/9e495ae5af906a3153b6ab730e09a7ede96574ef))
+
+
+### Chore
+
+* repository url case ([eec6538](https://github.com/SolidZORO/next-plugin-antd-less/commit/eec65382898f2b0f180b7bda62f7df7f05f67475))
+* update .nvmrc version ([aa3acd2](https://github.com/SolidZORO/next-plugin-antd-less/commit/aa3acd228e502d9d772395226695dae68b094fc7))
+
 ## [1.3.0](https://github.com/solidzoro/next-plugin-antd-less/compare/v1.2.2...v1.3.0) (2021-06-16)
 
 
