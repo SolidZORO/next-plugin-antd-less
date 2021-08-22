@@ -78,12 +78,14 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     localIdentName = pluginOptions.cssLoaderOptions.modules.localIdentName;
   }
 
-  //
-  //
-  //
-  // ---- cssModule ----
-  //
-  // delete default `getLocalIdent` and set `localIdentName`
+  /*
+  |--------------------------------------------------------------------------
+  | cssModule
+  |--------------------------------------------------------------------------
+  |
+  | delete default `getLocalIdent` and set `localIdentName`
+  |
+  */
   const cssModuleRegx = '/\\.module\\.css$/';
   const cssModuleIndex = rule.oneOf.findIndex(
     (item) => `${item.test}` === cssModuleRegx,
@@ -110,12 +112,14 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     };
   }
 
-  //
-  //
-  //
-  // ---- lessModule (from the sassModule clone) ----
-  //
-  // find
+  /*
+  |--------------------------------------------------------------------------
+  | lessModule (from the sassModule clone)
+  |--------------------------------------------------------------------------
+  |
+  | find
+  |
+  */
   const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
   const sassModuleIndex = rule.oneOf.findIndex(
     (item) => `${item.test}` === sassModuleRegx,
@@ -140,15 +144,15 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     ...pluginOptions.lessLoaderOptions,
   };
 
-  //
-  //
-  //
-  // ---- file-loader supported *.less ----
-  //
-  // url()s fail to load files
-  // https://github.com/SolidZORO/next-plugin-antd-less/issues/39
-  //
-  // find
+  /*
+  |--------------------------------------------------------------------------
+  | file-loader supported *.less
+  |--------------------------------------------------------------------------
+  |
+  | url()s fail to load files
+  | https://github.com/SolidZORO/next-plugin-antd-less/issues/39
+  |
+  */
   const fileModuleIndex = rule.oneOf.findIndex((item) => {
     if (
       item.use &&
@@ -164,6 +168,25 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   if (fileModule) {
     // RAW ---> issuer: /\.(css|scss|sass)$/,
     fileModule.issuer = /\.(css|scss|sass|less)$/;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | next-image-loader supported *.less (CRA doesn't need this)
+  |--------------------------------------------------------------------------
+  |
+  */
+  const nextImageModuleIndex = rules.findIndex(
+    (item) => item && item.loader && item.loader === 'next-image-loader',
+  );
+
+  const nextImageModule = rules[nextImageModuleIndex];
+
+  if (nextImageModule) {
+    // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
+    nextImageModule.issuer = {
+      not: /\.(css|scss|less|sass)(\.webpack\[javascript\/auto\])?$/,
+    };
   }
 
   /*
@@ -184,6 +207,16 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   if (pluginOptions.modifyVars) {
     lessModuleOptions.lessOptions.modifyVars = modifyVars;
   }
+
+  //
+  //
+  //
+  //
+
+  //
+  //
+  //
+  //
 
   /*
   |--------------------------------------------------------------------------
