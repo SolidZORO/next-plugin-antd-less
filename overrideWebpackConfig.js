@@ -153,7 +153,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   | https://github.com/SolidZORO/next-plugin-antd-less/issues/39
   |
   */
-  const fileModuleIndex = rule.oneOf.findIndex((item) => {
+  const fileLoaderIndex = rule.oneOf.findIndex((item) => {
     if (
       item.use &&
       item.use.loader &&
@@ -163,11 +163,35 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     }
   });
 
-  const fileModule = rule.oneOf[fileModuleIndex];
+  const fileLoader = rule.oneOf[fileLoaderIndex];
 
-  if (fileModule) {
+  if (fileLoader) {
     // RAW ---> issuer: /\.(css|scss|sass)$/,
-    fileModule.issuer = /\.(css|scss|sass|less)$/;
+    fileLoader.issuer = /\.(css|scss|sass|less)$/;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | noop-loader supported *.less (CRA doesn't need this)
+  |--------------------------------------------------------------------------
+  |
+  */
+  const noopLoaderIndex = rule.oneOf.findIndex((item) => {
+    if (
+      item &&
+      item.test &&
+      item.test.toString() ===
+        // RAW test
+        /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
+    ) {
+      return item;
+    }
+  });
+
+  const noopLoader = rule.oneOf[noopLoaderIndex];
+
+  if (noopLoader) {
+    noopLoader.test = /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/;
   }
 
   /*
@@ -176,18 +200,52 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   |--------------------------------------------------------------------------
   |
   */
-  const nextImageModuleIndex = rules.findIndex(
+  const nextImageLoaderIndex = rules.findIndex(
     (item) => item && item.loader && item.loader === 'next-image-loader',
   );
 
-  const nextImageModule = rules[nextImageModuleIndex];
+  const nextImageLoader = rules[nextImageLoaderIndex];
 
-  if (nextImageModule) {
+  if (nextImageLoader) {
     // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
-    nextImageModule.issuer = {
-      not: /\.(css|scss|less|sass)(\.webpack\[javascript\/auto\])?$/,
+    nextImageLoader.issuer = {
+      not: /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/,
     };
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | ignore-loader supported *.less (CRA doesn't need this, Server ONLY)
+  |--------------------------------------------------------------------------
+  |
+  */
+  const ignoreLoaderIndex = rule.oneOf.findIndex(
+    (item) =>
+      item &&
+      item.use &&
+      item.use.includes &&
+      item.use.includes('ignore-loader'),
+  );
+
+  const ignoreLoader = rule.oneOf[ignoreLoaderIndex];
+
+  if (ignoreLoader) {
+    // RAW ---> test: [ /(?<!\.module)\.css$/, /(?<!\.module)\.(scss|sass)$/ ],
+    ignoreLoader.test = [
+      /(?<!\.module)\.css$/,
+      /(?<!\.module)\.(scss|sass|less)$/,
+    ];
+  }
+
+  //
+  //
+  //
+  //
+
+  //
+  //
+  //
+  //
 
   /*
   |--------------------------------------------------------------------------
@@ -207,16 +265,6 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   if (pluginOptions.modifyVars) {
     lessModuleOptions.lessOptions.modifyVars = modifyVars;
   }
-
-  //
-  //
-  //
-  //
-
-  //
-  //
-  //
-  //
 
   /*
   |--------------------------------------------------------------------------
