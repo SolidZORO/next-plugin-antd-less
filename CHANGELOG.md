@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.0...v1.4.1) (2021-08-23)
+
+
+### Bug Fixes
+
+* downgrading less-loader to ^7, support CRA (^10 minimun wp5) ([2d65318](https://github.com/SolidZORO/next-plugin-antd-less/commit/2d65318ea41ea788392b8fc31ff484a12f0ede4f))
+
 ## [1.4.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.3.0...v1.4.0) (2021-08-22)
 
 
