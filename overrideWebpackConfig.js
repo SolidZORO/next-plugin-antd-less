@@ -2,7 +2,7 @@
 const clone = require('clone');
 const fs = require('fs');
 const path = require('path');
-const util = require('util'); // for echoIsServerInfo()
+const util = require('util'); // for debugInfo()
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
@@ -25,14 +25,14 @@ function checkIsNextJs(webpackConfig) {
 }
 
 /**
- * echoIsServerInfo
+ * debugInfo
  *
  * @param nextConfig
  * @param colorEmoji
  * @param log
  * @returns {string}
  */
-function echoIsServerInfo(nextConfig, colorEmoji, log) {
+function debugInfo(nextConfig, colorEmoji, log) {
   const envText = nextConfig && nextConfig.isServer ? 'Server' : 'Client';
 
   return `\n\n\n\n${colorEmoji} -------- ${envText} --------\n   ${log}`;
@@ -172,69 +172,75 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 
   /*
   |--------------------------------------------------------------------------
-  | noop-loader supported *.less (CRA doesn't need this)
+  | noop-loader supported *.less (Next.js ONLY)
   |--------------------------------------------------------------------------
   |
   */
-  const noopLoaderIndex = rule.oneOf.findIndex((item) => {
-    if (
-      item &&
-      item.test &&
-      item.test.toString() ===
-        // RAW test
-        /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
-    ) {
-      return item;
+  if (isNextJs) {
+    const noopLoaderIndex = rule.oneOf.findIndex((item) => {
+      if (
+        item &&
+        item.test &&
+        item.test.toString() ===
+          // RAW test
+          /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
+      ) {
+        return item;
+      }
+    });
+
+    const noopLoader = rule.oneOf[noopLoaderIndex];
+
+    if (noopLoader) {
+      noopLoader.test = /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/;
     }
-  });
-
-  const noopLoader = rule.oneOf[noopLoaderIndex];
-
-  if (noopLoader) {
-    noopLoader.test = /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/;
   }
 
   /*
   |--------------------------------------------------------------------------
-  | next-image-loader supported *.less (CRA doesn't need this)
+  | next-image-loader supported *.less (Next.js ONLY)
   |--------------------------------------------------------------------------
   |
   */
-  const nextImageLoaderIndex = rules.findIndex(
-    (item) => item && item.loader && item.loader === 'next-image-loader',
-  );
+  if (isNextJs) {
+    const nextImageLoaderIndex = rules.findIndex(
+      (item) => item && item.loader && item.loader === 'next-image-loader',
+    );
 
-  const nextImageLoader = rules[nextImageLoaderIndex];
+    const nextImageLoader = rules[nextImageLoaderIndex];
 
-  if (nextImageLoader) {
-    // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
-    nextImageLoader.issuer = {
-      not: /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/,
-    };
+    if (nextImageLoader) {
+      // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
+      nextImageLoader.issuer = {
+        not: /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/,
+      };
+    }
   }
 
   /*
   |--------------------------------------------------------------------------
-  | ignore-loader supported *.less (CRA doesn't need this, Server ONLY)
+  | ignore-loader supported *.less (Next.js Server ONLY)
   |--------------------------------------------------------------------------
   |
   */
-  const ignoreLoaderIndex = rule.oneOf.findIndex(
-    (item) =>
-      item &&
-      item.use &&
-      item.use.includes &&
-      item.use.includes('ignore-loader'),
-  );
+  if (isNextJs) {
+    const ignoreLoaderIndex = rule.oneOf.findIndex(
+      (item) =>
+        item &&
+        item.use &&
+        item.use.includes &&
+        item.use.includes('ignore-loader'),
+    );
 
-  const ignoreLoader = rule.oneOf[ignoreLoaderIndex];
+    const ignoreLoader = rule.oneOf[ignoreLoaderIndex];
 
-  if (ignoreLoader) {
-    // RAW ---> test: [ /(?<!\.module)\.css$/, /(?<!\.module)\.(scss|sass)$/ ],
-    ignoreLoader.test = [
-      /(?<!\.module)\.css$/,
-      /(?<!\.module)\.(scss|sass|less)$/,
-    ];
+    if (ignoreLoader) {
+      // RAW ---> test: [ /(?<!\.module)\.css$/, /(?<!\.module)\.(scss|sass)$/ ],
+      ignoreLoader.test = [
+        /(?<!\.module)\.css$/,
+        /(?<!\.module)\.(scss|sass|less)$/,
+      ];
+    }
   }
 
   //
@@ -298,7 +304,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     };
   }
 
-  // console.log(echoIsServerInfo(nextConfig, '🟡', 'lessModuleOptions'));
+  // console.log(debugInfo(nextConfig, '🟡', 'lessModuleOptions'));
   // console.log(util.inspect(lessModuleOptions, false, null, true));
 
   lessModule.use.splice(lessModuleIndex, 1, {
@@ -367,7 +373,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     },
   };
 
-  // console.log(echoIsServerInfo(nextConfig, '🟢', 'cssModuleOptions'));
+  // console.log(debugInfo(nextConfig, '🟢', 'cssModuleOptions'));
   // console.log(util.inspect(cssLoaderClone.options, false, null, true));
 
   // overwrite
@@ -390,7 +396,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       return pluginOptions.webpack(webpackConfig, nextConfig);
   }
 
-  // console.log(echoIsServerInfo(nextConfig, '🟣', 'webpackConfig.module.rules'));
+  // console.log(debugInfo(nextConfig, '🟣', 'webpackConfig.module.rules'));
   // console.log(util.inspect(webpackConfig.module.rules, false, null, true));
 
   return webpackConfig;
