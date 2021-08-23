@@ -114,30 +114,33 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
 
   /*
   |--------------------------------------------------------------------------
-  | lessModule (from the sassModule clone)
+  | lessLoader (from the sassLoader clone)
   |--------------------------------------------------------------------------
   |
-  | find
+  | Tips:
+  | sass has  test `module` and `non-module` loader,
+  | but `less-loader` has `auto: true`, so just copy onec.
   |
   */
-  const sassModuleRegx = '/\\.module\\.(scss|sass)$/';
-  const sassModuleIndex = rule.oneOf.findIndex(
-    (item) => `${item.test}` === sassModuleRegx,
+
+  // find
+  const sassLoaderIndex = rule.oneOf.findIndex(
+    (item) => item.test.toString() === /\.module\.(scss|sass)$/.toString(),
   );
-  const sassModule = rule.oneOf[sassModuleIndex];
+  const sassLoader = rule.oneOf[sassLoaderIndex];
 
   // clone
-  const lessModule = clone(sassModule);
-  lessModule.test = /\.less$/;
-  delete lessModule.issuer;
+  const lessLoader = clone(sassLoader);
+  lessLoader.test = /\.less$/;
+  delete lessLoader.issuer;
 
   // overwrite
-  const lessModuleIndex = lessModule.use.findIndex((item) =>
+  const lessLoaderIndex = lessLoader.use.findIndex((item) =>
     `${item.loader}`.includes('sass-loader'),
   );
 
-  // merge lessModule options
-  const lessModuleOptions = {
+  // merge lessLoader options
+  const lessLoaderOptions = {
     lessOptions: {
       javascriptEnabled: true,
     },
@@ -201,21 +204,37 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   | next-image-loader supported *.less (Next.js ONLY)
   |--------------------------------------------------------------------------
   |
+  | TODO:
+  |
+  | Modify this to enable *.less to use background-image.
+  | The
+  | But I don't know why it only takes effect in dev, when prod will prompt `Error: Module parse failed: Unexpected character '�' (1:0)`.
+  | This should actually be a less-loader problem, but considering that the CRA is still wp4 over there, it's too late to upgrade to wp5.
+  | I'm not sure if this is a problem with CRA, but I'm not sure if it's a problem with Next.js, so I'll just leave it alone.
+  | I don't know what to do. This Next.js my head is big, with the black box, just a patch version upgrade, you can make a bunch of plug-ins crash, my mind also collapsed, tired ah ......
+  |
+  | 修改这里就可以实现 *.less 使用 background-image 了。
+  |
+  | 但是不知道为什么只在 dev 生效，prod 时会提示 `Error: Module parse failed: Unexpected character '�' (1:0)`
+  | 这个其实应该是 less-loader 的问题，但是考虑到 CRA 那边还是 wp4 迟迟没有升级到 wp5，
+  | 且反正 Next.js 这边 prod 也会挂掉，所以干脆不处理了。
+  | 妈的！弄这 Next.js 我头都大，跟黑盒似的，随便来一个 patch 版本升级，就能让一堆插件崩掉，我的心态也崩了，累啊……
+  |
   */
-  if (isNextJs) {
-    const nextImageLoaderIndex = rules.findIndex(
-      (item) => item && item.loader && item.loader === 'next-image-loader',
-    );
-
-    const nextImageLoader = rules[nextImageLoaderIndex];
-
-    if (nextImageLoader) {
-      // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
-      nextImageLoader.issuer = {
-        not: /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/,
-      };
-    }
-  }
+  // if (isNextJs) {
+  //   const nextImageLoaderIndex = rules.findIndex(
+  //     (item) => item && item.loader && item.loader === 'next-image-loader',
+  //   );
+  //
+  //   const nextImageLoader = rules[nextImageLoaderIndex];
+  //
+  //   if (nextImageLoader) {
+  //     // RAW ---> issuer: { not: /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/ },
+  //     nextImageLoader.issuer = {
+  //       not: /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/,
+  //     };
+  //   }
+  // }
 
   /*
   |--------------------------------------------------------------------------
@@ -269,7 +288,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   }
 
   if (pluginOptions.modifyVars) {
-    lessModuleOptions.lessOptions.modifyVars = modifyVars;
+    lessLoaderOptions.lessOptions.modifyVars = modifyVars;
   }
 
   /*
@@ -282,7 +301,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   |
   */
   if (pluginOptions.lessVarsFilePath) {
-    lessModuleOptions.additionalData = (content) => {
+    lessLoaderOptions.additionalData = (content) => {
       const lessVarsFileResolvePath = path.resolve(
         pluginOptions.lessVarsFilePath,
       );
@@ -304,13 +323,13 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     };
   }
 
-  // console.log(debugInfo(nextConfig, '🟡', 'lessModuleOptions'));
-  // console.log(util.inspect(lessModuleOptions, false, null, true));
+  // console.log(debugInfo(nextConfig, '🟡', 'lessLoaderOptions'));
+  // console.log(util.inspect(lessLoaderOptions, false, null, true));
 
-  lessModule.use.splice(lessModuleIndex, 1, {
+  lessLoader.use.splice(lessLoaderIndex, 1, {
     // https://github.com/webpack-contrib/less-loader#options
     loader: 'less-loader',
-    options: lessModuleOptions,
+    options: lessLoaderOptions,
   });
 
   //
@@ -319,15 +338,15 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // ---- cssLoader In LessModule ----
 
   // find
-  const cssLoaderInLessModuleIndex = lessModule.use.findIndex((item) =>
+  const cssLoaderInLessLoaderIndex = lessLoader.use.findIndex((item) =>
     `${item.loader}`.includes('css-loader'),
   );
-  const cssLoaderInLessModule = lessModule.use.find((item) =>
+  const cssLoaderInLessLoader = lessLoader.use.find((item) =>
     `${item.loader}`.includes('css-loader'),
   );
 
   // clone
-  const cssLoaderClone = clone(cssLoaderInLessModule);
+  const cssLoaderClone = clone(cssLoaderInLessLoader);
 
   if (
     cssLoaderClone &&
@@ -377,13 +396,13 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // console.log(util.inspect(cssLoaderClone.options, false, null, true));
 
   // overwrite
-  lessModule.use.splice(cssLoaderInLessModuleIndex, 1, cssLoaderClone);
+  lessLoader.use.splice(cssLoaderInLessLoaderIndex, 1, cssLoaderClone);
 
   //
   //
   //
-  // ---- append lessModule to webpack modules ----
-  rule.oneOf.splice(sassModuleIndex, 0, lessModule);
+  // ---- append lessLoader to webpack modules ----
+  rule.oneOf.splice(sassLoaderIndex, 0, lessLoader);
   webpackConfig.module.rules[ruleIndex] = rule;
 
   //
