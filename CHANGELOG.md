@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.1...v1.4.2) (2021-08-23)
+
+
+### Bug Fixes
+
+* remove background-image, compatible CRA and Next.js (另外还有写在注释里的碎碎念) ([60c10de](https://github.com/SolidZORO/next-plugin-antd-less/commit/60c10de9c766ef6bf6f155771d445a4eaa4e5284))
+
 ### [1.4.1](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.0...v1.4.1) (2021-08-23)
 
 
