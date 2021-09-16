@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.3](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.2...v1.4.3) (2021-09-16)
+
+
+### Features
+
+* support Antd Pro thanks [@clgt](https://github.com/clgt)IO ([a849a00](https://github.com/SolidZORO/next-plugin-antd-less/commit/a849a00184e2483ac04bc4cfe1d0a3097e2baed0)), closes [#68](https://github.com/SolidZORO/next-plugin-antd-less/issues/68)
+
 ### [1.4.2](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.1...v1.4.2) (2021-08-23)
 
 
