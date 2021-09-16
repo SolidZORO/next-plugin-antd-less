@@ -24,6 +24,7 @@ Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 - Support Both [Next.js] & [CRA] Project
 - Support Hot-Update After modifying [Antd] less vars
 - Support Serverless Mode
+- Support Antd Pro
 
 ## 🌊 Compatibility
 
