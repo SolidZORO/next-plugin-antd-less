@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Chore
 
-* change license author name ([8bfb0fd](https://github.com/SolidZORO/next-plugin-antd-less/commit/8bfb0fd0fc22111ba389159905144ef4dde98194))
+* upgrade Less to 4.1.2 thanks [@nring](https://github.com/nring)
 
 ### [1.4.3](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.2...v1.4.3) (2021-09-16)
 
@@ -122,7 +122,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* cannot set property '.less' of  undefined ([42ba69a](https://github.com/solidzoro/next-plugin-antd-less/commit/42ba69a8db923facf7da86777d9eea947fdc561a))
+* cannot set property '.less' of undefined ([42ba69a](https://github.com/solidzoro/next-plugin-antd-less/commit/42ba69a8db923facf7da86777d9eea947fdc561a))
 * cannot set property '.less' of undefined ([8b178ac](https://github.com/solidzoro/next-plugin-antd-less/commit/8b178ac53734c74dba39da7596c29d86b4bf3366))
 * fixed pluginOptions.modifyVars to be optional ([5e941f0](https://github.com/solidzoro/next-plugin-antd-less/commit/5e941f0796fe4f65a7187227a8c822ef86b05c41)), closes [#42](https://github.com/solidzoro/next-plugin-antd-less/issues/42)
 
@@ -253,14 +253,12 @@ All notable changes to this project will be documented in this file. See [standa
 ## [0.0.6](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.5...v0.0.6) (2020-08-27)
 
 
-
 ## [0.0.5](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.4...v0.0.5) (2020-08-27)
 
 
 ### Bug Fixes
 
 * unintended overwriting of sass module rule ([deffefe](https://github.com/solidzoro/next-plugin-antd-less/commit/deffefe6118ad94bdcb1c4aa3f8eb98a3c6a771f))
-
 
 
 ## [0.0.4](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.3...v0.0.4) (2020-08-05)
@@ -271,9 +269,7 @@ All notable changes to this project will be documented in this file. See [standa
 * use `clone` instend of `lodash.clone` ([e6443fa](https://github.com/solidzoro/next-plugin-antd-less/commit/e6443facd173568640b3dd296ba04dc051125493))
 
 
-
 ## [0.0.3](https://github.com/solidzoro/next-plugin-antd-less/compare/v0.0.2...v0.0.3) (2020-08-05)
-
 
 
 ## 0.0.2 (2020-08-05)
