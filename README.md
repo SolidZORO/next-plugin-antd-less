@@ -138,13 +138,26 @@ require('./styles.less');
 
 ### How to overwrite `antd` less variables?
 
-
 ```less
 // ./src/styles/variables.less
 @import '~antd/lib/style/themes/default.less'; // <-- you need to import antd variables once in your project
 
 @primary-color: #04f; // change antd primary-color
 ```
+
+
+```js
+// 🔰️ Tips: if your use babel import plugin and set `libraryDirectory`, please keep `libraryDirectory` and `less path` consistent.
+
+// lib
+['import', { libraryName: 'antd', libraryDirectory: 'lib', style: true }]
+// `@import '~antd/lib/style/themes/default.less';` <-- use `lib`
+
+// es
+  ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }]
+// --> `@import '~antd/es/style/themes/default.less';` <-- use `es`
+```
+
 
 ```js
 // plugin options
