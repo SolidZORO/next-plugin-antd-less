@@ -37,6 +37,7 @@ Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 
 ```sh
 yarn add next-plugin-antd-less
+yarn add --dev babel-plugin-import
 ```
 
 
