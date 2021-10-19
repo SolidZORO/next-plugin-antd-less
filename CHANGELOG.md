@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.4](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.3...v1.4.4) (2021-10-19)
+
+
+### Chore
+
+* change license author name ([8bfb0fd](https://github.com/SolidZORO/next-plugin-antd-less/commit/8bfb0fd0fc22111ba389159905144ef4dde98194))
+
 ### [1.4.3](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.2...v1.4.3) (2021-09-16)
 
 
