@@ -354,9 +354,13 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     cssLoaderClone &&
     cssLoaderClone.options &&
     cssLoaderClone.options.modules &&
-    cssLoaderClone.options.modules.getLocalIdent
+    cssLoaderClone.options.modules.getLocalIdent &&
+    pluginOptions &&
+    pluginOptions.cssLoaderOptions &&
+    pluginOptions.cssLoaderOptions.modules &&
+    pluginOptions.cssLoaderOptions.modules.getLocalIdent
   ) {
-    // make the custom `localIdentName` work
+    // if use custom `localIdentName`, you need to remove the getLocalIdent Fn
     delete cssLoaderClone.options.modules.getLocalIdent;
   }
 
