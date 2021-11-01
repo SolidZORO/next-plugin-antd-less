@@ -20,7 +20,8 @@ function checkIsNextJs(webpackConfig) {
     webpackConfig &&
       webpackConfig.resolveLoader &&
       webpackConfig.resolveLoader.alias &&
-      webpackConfig.resolveLoader.alias['next-babel-loader'],
+      (webpackConfig?.resolveLoader?.alias['next-babel-loader'] ||
+        webpackConfig.resolveLoader.alias['next-swc-loader']),
   );
 }
 
@@ -195,7 +196,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     const noopLoader = rule.oneOf[noopLoaderIndex];
 
     if (noopLoader) {
-      noopLoader.test = /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/;
+      noopLoader.test =
+        /\.(css|scss|sass|less)(\.webpack\[javascript\/auto\])?$/;
     }
   }
 
