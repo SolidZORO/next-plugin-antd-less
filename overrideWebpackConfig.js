@@ -2,7 +2,7 @@
 const clone = require('clone');
 const fs = require('fs');
 const path = require('path');
-const util = require('util'); // for debugInfo()
+// const util = require('util'); // for debugInfo()
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {

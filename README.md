@@ -11,7 +11,7 @@ Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
 ## 📌 Demo
 
-[Demo w/ Next.js v11](https://mkn.vercel.app/) by [mkn](https://github.com/SolidZORO/mkn)
+[Demo w/ Next.js v12](https://mkn.vercel.app/) by [mkn](https://github.com/SolidZORO/mkn)
 
 [Demo w/ CRA v4](https://mkr.vercel.app/) by [mkr](https://github.com/SolidZORO/mkr)
 
@@ -28,8 +28,7 @@ Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 
 ## 🌊 Compatibility
 
-- next `v9.0` (webpack 4)
-- next `v10 & v11` (webpack 4 & 5)
+- next `v12 & v11` (webpack 5, SWC or Babel)
 - less `v3.0+`
 
 
