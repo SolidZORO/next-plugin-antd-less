@@ -6,7 +6,8 @@ const path = require('path');
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
-  require.extensions['.less'] = () => {};
+  require.extensions['.less'] = () => {
+  };
 }
 
 /**
@@ -18,10 +19,10 @@ if (require && require.extensions) {
 function checkIsNextJs(webpackConfig) {
   return Boolean(
     webpackConfig &&
-      webpackConfig.resolveLoader &&
-      webpackConfig.resolveLoader.alias &&
-      (webpackConfig?.resolveLoader?.alias['next-babel-loader'] ||
-        webpackConfig.resolveLoader.alias['next-swc-loader']),
+    webpackConfig.resolveLoader &&
+    webpackConfig.resolveLoader.alias &&
+    (webpackConfig.resolveLoader.alias['next-babel-loader'] ||
+      webpackConfig.resolveLoader.alias['next-swc-loader']),
   );
 }
 
@@ -186,8 +187,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
         item &&
         item.test &&
         item.test.toString() ===
-          // RAW test
-          /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
+        // RAW test
+        /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
       ) {
         return item;
       }
@@ -455,29 +456,29 @@ function handleAntdInServer(webpackConfig, nextConfig) {
 
   webpackConfig.externals = isWebpack5(nextConfig)
     ? [
-        // ctx and cb are both webpack5's params
-        // ctx eqauls { context, request, contextInfo, getResolve }
-        // https://webpack.js.org/configuration/externals/#function
-        (ctx, cb) => {
-          if (ctx.request.match(ANTD_STYLE_REGX)) return cb();
+      // ctx and cb are both webpack5's params
+      // ctx eqauls { context, request, contextInfo, getResolve }
+      // https://webpack.js.org/configuration/externals/#function
+      (ctx, cb) => {
+        if (ctx.request.match(ANTD_STYLE_REGX)) return cb();
 
-          // next's params are different when webpack5 enable
-          // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
-          if (typeof exts[0] === 'function') return exts[0](ctx, cb);
-          else return cb();
-        },
-        ...(typeof exts[0] === 'function' ? [] : exts),
-      ]
+        // next's params are different when webpack5 enable
+        // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
+        if (typeof exts[0] === 'function') return exts[0](ctx, cb);
+        else return cb();
+      },
+      ...(typeof exts[0] === 'function' ? [] : exts),
+    ]
     : [
-        // webpack4
-        (ctx, req, cb) => {
-          if (req.match(ANTD_STYLE_REGX)) return cb();
+      // webpack4
+      (ctx, req, cb) => {
+        if (req.match(ANTD_STYLE_REGX)) return cb();
 
-          if (typeof exts[0] === 'function') return exts[0](ctx, req, cb);
-          else return cb();
-        },
-        ...(typeof exts[0] === 'function' ? [] : exts),
-      ];
+        if (typeof exts[0] === 'function') return exts[0](ctx, req, cb);
+        else return cb();
+      },
+      ...(typeof exts[0] === 'function' ? [] : exts),
+    ];
 
   webpackConfig.module.rules.unshift({
     test: ANTD_STYLE_REGX,
