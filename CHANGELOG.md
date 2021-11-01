@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.4...v1.5.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* compatible with custom getLocalIdent in Next.js 12 ([a20649e](https://github.com/SolidZORO/next-plugin-antd-less/commit/a20649e10c11aae168bc8f3a759faa4f8d3ab33e))
+
 ### [1.4.4](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.4.3...v1.4.4) (2021-10-19)
 
 
