@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.5.2...v1.6.0) (2021-12-10)
+
+
+### Features
+
+* for Unify getLocalIdent (Next.js / CRA) ([615e95d](https://github.com/SolidZORO/next-plugin-antd-less/commit/615e95dca7ae8c7d682b9e0c161fd3d616e20442))
+
 ### [1.5.2](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.5.1...v1.5.2) (2021-11-01)
 
 
