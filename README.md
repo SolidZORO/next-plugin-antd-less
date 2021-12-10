@@ -49,14 +49,21 @@ yarn add --dev babel-plugin-import
 const withAntdLess = require('next-plugin-antd-less');
 
 module.exports = withAntdLess({
-  // optional
-  modifyVars: { '@primary-color': '#04f' },
-  // optional
-  lessVarsFilePath: './src/styles/variables.less',
-  // optional
-  lessVarsFilePathAppendToEndOfContent: false,
+  modifyVars: { '@primary-color': '#04f' }, // optional
+  lessVarsFilePath: './src/styles/variables.less', // optional 
+  lessVarsFilePathAppendToEndOfContent: false, // optional
   // optional https://github.com/webpack-contrib/css-loader#object
-  cssLoaderOptions: {},
+  cssLoaderOptions: {
+    // ... 
+    mode: "local",
+    localIdentName: "[path][name]__[local]--[hash:base64:5]", // invalid! for Unify getLocalIdent (Next.js / CRA), Cannot set it, but you can rewritten getLocalIdentFn
+    exportLocalsConvention: "camelCase",
+    exportOnlyLocals: false,
+    // ...
+    getLocalIdent: (context, localIdentName, localName, options) => {
+      return "whatever_random_class_name";
+    },
+  },
 
   // Other Config Here...
 
@@ -116,6 +123,35 @@ file.
 
 If you have any problem, please check [mkn](https://github.com/SolidZORO/mkn) (Next.js)
 and [mkr](https://github.com/SolidZORO/mkr) (CRA) first, I update these two repo's every time I update this plugin.
+
+### Default ClassName
+
+| MODE      | className            | e.g.                  |
+| --------- | -------------------- |-----------------------|
+| DEV       | `[local]--[hash:4]`  | `comp-wrapper--2Rra ` |
+| PROD      | `[hash:8]`           | `2Rra8Ryx`            |
+
+for Unify getLocalIdent (Next.js / CRA), Cannot set it, but you can rewritten getLocalIdentFn
+
+
+### localIdentName is invalid? How to rewritten?
+
+you can defind your own `localIdentName` in `pluginOptions.cssLoaderOptions.modules.getLocalIdent`
+
+```javascript
+  options: {
+  lessVarsFilePath: './src/styles/variables.less'
+  // ...
+  // https://github.com/webpack-contrib/css-loader/tree/b7a84414fb3f6e6ff413cbbb7004fa74a78da331#getlocalident
+  //
+  // and you can see file 
+  // https://github.com/SolidZORO/next-plugin-antd-less/getCssModuleLocalIdent.js
+  getLocalIdent: (context, _, exportName, options) => {
+    return 'whatever_random_class_name';
+  }
+  // ...
+}
+```
 
 ### How to import global `CSS` style (e.g. styles.css)?
 

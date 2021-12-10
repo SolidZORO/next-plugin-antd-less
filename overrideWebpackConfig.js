@@ -2,6 +2,7 @@
 const clone = require('clone');
 const fs = require('fs');
 const path = require('path');
+const getCssModuleLocalIdentForNextJs = require('./getCssModuleLocalIdent');
 // const util = require('util'); // for debugInfo()
 
 // fix: prevents error when .less files are required by node
@@ -351,18 +352,15 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   // clone
   const cssLoaderClone = clone(cssLoaderInLessLoader);
 
+  let getLocalIdentFn = (context, _, exportName, options) => getCssModuleLocalIdentForNextJs(context, _, exportName, options, __DEV__);
+
   if (
-    cssLoaderClone &&
-    cssLoaderClone.options &&
-    cssLoaderClone.options.modules &&
-    cssLoaderClone.options.modules.getLocalIdent &&
     pluginOptions &&
     pluginOptions.cssLoaderOptions &&
     pluginOptions.cssLoaderOptions.modules &&
     pluginOptions.cssLoaderOptions.modules.getLocalIdent
   ) {
-    // if use custom `localIdentName`, you need to remove the getLocalIdent Fn
-    delete cssLoaderClone.options.modules.getLocalIdent;
+    getLocalIdentFn = pluginOptions.cssLoaderOptions.modules.getLocalIdent;
   }
 
   // merge CssModule options
@@ -395,7 +393,9 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       ...(pluginOptions.cssLoaderOptions || {}).modules,
       //
       // recommended to keep `true`!
+
       auto: true,
+      getLocalIdent: getLocalIdentFn
     },
   };
 
