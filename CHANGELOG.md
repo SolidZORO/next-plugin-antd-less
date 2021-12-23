@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.6.0...v1.7.0) (2021-12-23)
+
+
+### Features
+
+* compatibility CRA v5.0 ([6e8574c](https://github.com/SolidZORO/next-plugin-antd-less/commit/6e8574c8e690a6f18712dd3eeba23a1dbabd07db))
+
 ## [1.6.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.5.2...v1.6.0) (2021-12-10)
 
 
