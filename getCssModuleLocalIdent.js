@@ -9,7 +9,7 @@ const path = require('path');
 // | DEV       | `[local]--[hash:4]`  | `comp-wrapper--2Rra ` |
 // | PROD      | `[hash:8]`           | `2Rra8Ryx`            |
 
-module.exports = function getCssModuleLocalIdentForNextJs(
+function getCssModuleLocalIdentForNextJs(
   context,
   _,
   exportName,
@@ -39,7 +39,7 @@ module.exports = function getCssModuleLocalIdentForNextJs(
         // I remove fileNameOrFolder in here
         // like `css-loader` default localIdentName
         //
-        __DEV__ ? exportName + '--' + hash : hash,
+        __DEV__ ? `${exportName}--${hash}` : hash,
         options
       )
       .replace(
@@ -56,4 +56,10 @@ module.exports = function getCssModuleLocalIdentForNextJs(
       // https://www.w3.org/TR/CSS21/syndata.html#characters
       .replace(/^(\d|--|-\d)/, '__$1')
   )
+}
+
+
+module.exports = {
+  getCssModuleLocalIdentForNextJs,
+  loaderUtils,
 }

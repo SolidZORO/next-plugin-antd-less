@@ -2,7 +2,11 @@
 const clone = require('clone');
 const fs = require('fs');
 const path = require('path');
-const getCssModuleLocalIdentForNextJs = require('./getCssModuleLocalIdent');
+
+const {
+  getCssModuleLocalIdentForNextJs,
+  loaderUtils
+} = require('./getCssModuleLocalIdent');
 // const util = require('util'); // for debugInfo()
 
 // fix: prevents error when .less files are required by node
@@ -10,6 +14,13 @@ if (require && require.extensions) {
   require.extensions['.less'] = () => {
   };
 }
+
+/*
+* 🌈 这里简要说一下基本原理，Next.js 和 CRA 通用
+*
+* 大概就是找到 sass-loader，然后 clone，最后 replace loader 的一些参数变成 less-loader
+*
+* */
 
 /**
  * checkIsNextJs
@@ -349,10 +360,23 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     `${item.loader}`.includes('css-loader'),
   );
 
+  // 🔰 Compatibility CRA v5.0
+  //
+  // find and delete `resolve-url-loader`
+  //
+  // in CRA v5.0, `sass-loader` uses `resolve-url-loader` by default,
+  // but `less-loader` doesn't need it and will throw an ERROR if it does
+  const resolveUrlLoaderInLessLoaderIndex = lessLoader.use.findIndex((item) =>
+    `${item.loader}`.includes('resolve-url-loader'),
+  );
+
+  lessLoader.use.splice(resolveUrlLoaderInLessLoaderIndex, 1);
+
   // clone
   const cssLoaderClone = clone(cssLoaderInLessLoader);
 
-  let getLocalIdentFn = (context, _, exportName, options) => getCssModuleLocalIdentForNextJs(context, _, exportName, options, __DEV__);
+  let getLocalIdentFn = (context, _, exportName, options) =>
+    getCssModuleLocalIdentForNextJs(context, _, exportName, options, __DEV__);
 
   if (
     pluginOptions &&
@@ -491,4 +515,7 @@ function handleAntdInServer(webpackConfig, nextConfig) {
 module.exports = {
   overrideWebpackConfig,
   handleAntdInServer,
+  //
+  loaderUtils,
+  getCssModuleLocalIdentForNextJs
 };
