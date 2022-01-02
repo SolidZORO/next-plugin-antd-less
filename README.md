@@ -1,15 +1,14 @@
 # Next.js + Antd (with Less)
 
-<!--
-[![Build Status][build-img]][build-url]
--->
-[![NPM version][npm-img]][npm-url]
-[![License: MIT][mit-img]][mit-url]
+[![version][npm-img]][npm-url]
+[![license][mit-img]][mit-url]
+[![size][size-img]][size-url]
+[![download][download-img]][download-url]
 
 Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 
 
-## 📌 Demo
+## Demo
 
 [Demo w/ Next.js v12](https://mkn.vercel.app/) by [mkn](https://github.com/SolidZORO/mkn)
 
@@ -18,7 +17,7 @@ Use [Antd] (Less) w/ [Next.js], Zero Dependency on other Next-Plugins.
 Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 
 
-## 🎉 Features
+## Features
 
 - Zero Dependency on other [Next.js] Plugins
 - Support Both [Next.js] & [CRA] Project
@@ -26,13 +25,13 @@ Yep! this plugin supports both [Next.js] and [CRA] since v1.0.
 - Support Serverless Mode
 - Support Antd Pro
 
-## 🌊 Compatibility
+## Compatibility
 
 - Next.js v11 / v12
 - CRA v4 / v5
 
 
-## 📦 Installation
+## Installation
 
 ```sh
 yarn add next-plugin-antd-less
@@ -40,7 +39,7 @@ yarn add --dev babel-plugin-import
 ```
 
 
-## 🔰 Usage
+## Usage
 
 ### for [Next.js]
 
@@ -117,7 +116,7 @@ Detailed config can be found in [`craco.config.js`](https://github.com/SolidZORO
 file.
 
 
-## 🖌️ FAQ
+## FAQ
 
 ### Reference Project?
 
@@ -202,7 +201,7 @@ lessVarsFilePath: './src/styles/variables.less'
 @seeMore issues [#36](https://github.com/SolidZORO/next-plugin-antd-less/issues/36), [#74](https://github.com/SolidZORO/next-plugin-antd-less/issues/74)
 
 
-## 🎩 Background
+## Background
 
 ### Issues
 
@@ -222,9 +221,9 @@ Since Next.js 9.3 supports `sass` and `css` by default, but does not support `le
 This is the lowest cost way, And CLI will no longer show this disgusting warning. The important thing is that there is **Zero Dependency on other Next-Plugins.**.
 
 
-## 📜 License
+## License
 
-© [MIT][mit-url]
+MIT © [Jason Feng][author-url]
 
 <!-- links -->
 
@@ -238,14 +237,29 @@ This is the lowest cost way, And CLI will no longer show this disgusting warning
 
 <!-- badges -->
 
-[mit-img]: https://img.shields.io/badge/License-MIT-blue.svg
+[author-url]: https://github.com/SolidZORO
+
+[mit-img]: https://img.shields.io/npm/l/next-plugin-antd-less.svg?style=flat&colorA=000000&colorB=000000
 
 [mit-url]: ./LICENSE
 
-[npm-img]: https://img.shields.io/npm/v/next-plugin-antd-less.svg
+
+[npm-img]: https://img.shields.io/npm/v/next-plugin-antd-less?style=flat&colorA=000000&colorB=000000
 
 [npm-url]: https://www.npmjs.com/package/next-plugin-antd-less
 
-[build-img]: https://github.com/SolidZORO/next-plugin-antd-less/workflows/badge.svg
+
+[size-img]: https://img.shields.io/bundlephobia/minzip/next-plugin-antd-less?label=bundle&style=flat&colorA=000000&colorB=000000
+
+[size-url]: https://www.npmjs.com/package/next-plugin-antd-less
+
+
+[download-img]: https://img.shields.io/npm/dt/next-plugin-antd-less.svg?style=flat&colorA=000000&colorB=000000
+
+[download-url]: https://www.npmjs.com/package/next-plugin-antd-less
+
+
+[build-img]: https://img.shields.io/github/workflow/status/SolidZORO/next-plugin-antd-less/Lint?style=flat&colorA=000000&colorB=000000
 
 [build-url]: https://github.com/SolidZORO/next-plugin-antd-less/actions
+
