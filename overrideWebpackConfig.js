@@ -5,22 +5,21 @@ const path = require('path');
 
 const {
   getCssModuleLocalIdentForNextJs,
-  loaderUtils
+  loaderUtils,
 } = require('./getCssModuleLocalIdent');
 // const util = require('util'); // for debugInfo()
 
 // fix: prevents error when .less files are required by node
 if (require && require.extensions) {
-  require.extensions['.less'] = () => {
-  };
+  require.extensions['.less'] = () => {};
 }
 
 /*
-* 🌈 这里简要说一下基本原理，Next.js 和 CRA 通用
-*
-* 大概就是找到 sass-loader，然后 clone，最后 replace loader 的一些参数变成 less-loader
-*
-* */
+ * 🌈 这里简要说一下基本原理，Next.js 和 CRA 通用
+ *
+ * 大概就是找到 sass-loader，然后 clone，最后 replace loader 的一些参数变成 less-loader
+ *
+ * */
 
 /**
  * checkIsNextJs
@@ -31,10 +30,10 @@ if (require && require.extensions) {
 function checkIsNextJs(webpackConfig) {
   return Boolean(
     webpackConfig &&
-    webpackConfig.resolveLoader &&
-    webpackConfig.resolveLoader.alias &&
-    (webpackConfig.resolveLoader.alias['next-babel-loader'] ||
-      webpackConfig.resolveLoader.alias['next-swc-loader']),
+      webpackConfig.resolveLoader &&
+      webpackConfig.resolveLoader.alias &&
+      (webpackConfig.resolveLoader.alias['next-babel-loader'] ||
+        webpackConfig.resolveLoader.alias['next-swc-loader']),
   );
 }
 
@@ -81,7 +80,7 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const rule = rules[ruleIndex];
 
   // default localIdentName
-  let localIdentName = __DEV__ ? '[local]--[hash:4]' : '[hash:8]';
+  let localIdentName = __DEV__ ? '[local]--[hash:base64:4]' : '[hash:base64:8]';
 
   if (
     pluginOptions &&
@@ -90,6 +89,16 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
     pluginOptions.cssLoaderOptions.modules.localIdentName
   ) {
     localIdentName = pluginOptions.cssLoaderOptions.modules.localIdentName;
+  }
+
+  let localIdentNameFollowDev = false;
+
+  if (
+    pluginOptions &&
+    pluginOptions.nextjs &&
+    pluginOptions.nextjs.localIdentNameFollowDev
+  ) {
+    localIdentNameFollowDev = pluginOptions.nextjs.localIdentNameFollowDev;
   }
 
   /*
@@ -199,8 +208,8 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
         item &&
         item.test &&
         item.test.toString() ===
-        // RAW test
-        /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
+          // RAW test
+          /\.(css|scss|sass)(\.webpack\[javascript\/auto\])?$/.toString()
       ) {
         return item;
       }
@@ -376,7 +385,14 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
   const cssLoaderClone = clone(cssLoaderInLessLoader);
 
   let getLocalIdentFn = (context, _, exportName, options) =>
-    getCssModuleLocalIdentForNextJs(context, _, exportName, options, __DEV__);
+    getCssModuleLocalIdentForNextJs(
+      context,
+      _,
+      exportName,
+      options,
+      __DEV__,
+      localIdentNameFollowDev,
+    );
 
   if (
     pluginOptions &&
@@ -419,7 +435,9 @@ function overrideWebpackConfig({ webpackConfig, nextConfig, pluginOptions }) {
       // recommended to keep `true`!
 
       auto: true,
-      getLocalIdent: getLocalIdentFn
+      // Next.js need getLocalIdent (non-full-featured localIdentName 😂)
+      // CRA Don't need it (full-featured localIdentName)
+      getLocalIdent: isNextJs ? getLocalIdentFn : undefined,
     },
   };
 
@@ -480,29 +498,29 @@ function handleAntdInServer(webpackConfig, nextConfig) {
 
   webpackConfig.externals = isWebpack5(nextConfig)
     ? [
-      // ctx and cb are both webpack5's params
-      // ctx eqauls { context, request, contextInfo, getResolve }
-      // https://webpack.js.org/configuration/externals/#function
-      (ctx, cb) => {
-        if (ctx.request.match(ANTD_STYLE_REGX)) return cb();
+        // ctx and cb are both webpack5's params
+        // ctx eqauls { context, request, contextInfo, getResolve }
+        // https://webpack.js.org/configuration/externals/#function
+        (ctx, cb) => {
+          if (ctx.request.match(ANTD_STYLE_REGX)) return cb();
 
-        // next's params are different when webpack5 enable
-        // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
-        if (typeof exts[0] === 'function') return exts[0](ctx, cb);
-        else return cb();
-      },
-      ...(typeof exts[0] === 'function' ? [] : exts),
-    ]
+          // next's params are different when webpack5 enable
+          // https://github.com/vercel/next.js/blob/0425763ed6a90f4ff99ab2ff37821da61d895e09/packages/next/build/webpack-config.ts#L770
+          if (typeof exts[0] === 'function') return exts[0](ctx, cb);
+          else return cb();
+        },
+        ...(typeof exts[0] === 'function' ? [] : exts),
+      ]
     : [
-      // webpack4
-      (ctx, req, cb) => {
-        if (req.match(ANTD_STYLE_REGX)) return cb();
+        // webpack4
+        (ctx, req, cb) => {
+          if (req.match(ANTD_STYLE_REGX)) return cb();
 
-        if (typeof exts[0] === 'function') return exts[0](ctx, req, cb);
-        else return cb();
-      },
-      ...(typeof exts[0] === 'function' ? [] : exts),
-    ];
+          if (typeof exts[0] === 'function') return exts[0](ctx, req, cb);
+          else return cb();
+        },
+        ...(typeof exts[0] === 'function' ? [] : exts),
+      ];
 
   webpackConfig.module.rules.unshift({
     test: ANTD_STYLE_REGX,
@@ -517,5 +535,5 @@ module.exports = {
   handleAntdInServer,
   //
   loaderUtils,
-  getCssModuleLocalIdentForNextJs
+  getCssModuleLocalIdentForNextJs,
 };
