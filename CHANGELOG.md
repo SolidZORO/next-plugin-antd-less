@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.7.0...v1.8.0) (2022-01-09)
+
+
+### Features
+
+* add nextjs.localIdentNameFollowDev config ([2bfcad8](https://github.com/SolidZORO/next-plugin-antd-less/commit/2bfcad8c9ec0a837a5c1b942a4d0e8eed80fb693))
+
 ## [1.7.0](https://github.com/SolidZORO/next-plugin-antd-less/compare/v1.6.0...v1.7.0) (2021-12-23)
 
 
