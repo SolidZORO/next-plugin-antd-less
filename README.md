@@ -1,6 +1,6 @@
 # Next.js + Custom component library (with Less)
 
-Support custom component library (Less) with Next.js v12，folked from [next-plugin-antd-less](https://github.com/SolidZORO/next-plugin-antd-less)
+Support custom component library (Less) with Next.js v12，folked from [next-plugin-antd-less](https://github.com/SolidZORO/next-plugin-antd-less) v1.8.0
 
 ## Installation
 
