@@ -1,5 +1,5 @@
 {
-  "name": "next-plugin-antd-less",
+  "name": "next-plugin-component-less",
   "version": "0.0.1",
   "main": "index.js",
   "sideEffect": false,
