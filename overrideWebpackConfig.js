@@ -493,7 +493,7 @@ function isWebpack5(nextConfig) {
 function handleAntdInServer(webpackConfig, nextConfig) {
   if (!nextConfig.isServer) return webpackConfig;
 
-  const ANTD_STYLE_REGX = /(antd\/.*?\/style|@ant-design).*(?<![.]js)$/;
+  const ANTD_STYLE_REGX = nextConfig.config.STYLE_REGX || /(antd\/.*?\/style|@ant-design).*(?<![.]js)$/;
   const exts = [...webpackConfig.externals];
 
   webpackConfig.externals = isWebpack5(nextConfig)

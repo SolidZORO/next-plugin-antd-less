@@ -1,6 +1,6 @@
 {
-  "name": "next-plugin-antd-less",
-  "version": "1.8.0",
+  "name": "next-plugin-component-less",
+  "version": "0.0.2",
   "main": "index.js",
   "sideEffect": false,
   "author": "Jason Feng <solidzoro@live.com>",
@@ -46,7 +46,9 @@
     "css module",
     "next plugin"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "standard-version": "^9.5.0"
+  },
   "dependencies": {
     "clone": "^2.1.2",
     "less": "^4.1.2",
